@@ -21,6 +21,11 @@ An in-depth paragraph about your project and overview of use.
 ### Executing program
 
 * How to run the program
+npm install 
+
+followed by
+npm install --save-dev @types/react@latest @types/react-dom@latest
+
 * Step-by-step bullets
 ```
 code blocks for commands
