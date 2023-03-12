@@ -1,12 +1,12 @@
+import * as dotenv from "dotenv";
+const environment = process.env.NODE_ENV || "dev";
+dotenv.config({ path: `.env.${environment}`.trim() });
+
 import { app } from "./app";
-import { EOL } from "os";
 import { Server } from 'http';
 
-const PORT = 3000;
-
-// app.listen(3000, () => {
-//   console.log("🚂 Express server started on port 3000");
-// });
+const PORT = process.env.PORT;
+console.log(`🌍 Running in ${environment} environment`);
 
 try {
 
