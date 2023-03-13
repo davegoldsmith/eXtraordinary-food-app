@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS mealapp_schema.users
     email text COLLATE pg_catalog."default" NOT NULL,
     password text COLLATE pg_catalog."default" NOT NULL,
     api_hash text COLLATE pg_catalog."default" NOT NULL,
-    display_name text COLLATE pg_catalog."default",
+    first_name text COLLATE pg_catalog."default",
+    last_name text COLLATE pg_catalog."default",
+    user_name text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (user_id),
     CONSTRAINT users_email_key UNIQUE (email)
 )
@@ -38,7 +40,7 @@ CREATE TABLE IF NOT EXISTS mealapp_schema.users
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS mealapp_schema.users
-    OWNER to mealappuser;    
+    OWNER to mealappuser;   
 
 -- Table: mealapp_schema.user_prefs
 
