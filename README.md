@@ -15,21 +15,47 @@ An in-depth paragraph about your project and overview of use.
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+Clone the repository and do the following to get started:
+* In the root directory:
+`npm install` - this will pull in all the dependencies required by the `server`
+* cd to client directory:
+```
+cd client
+npm install
+```
+this will intstall the dependencies for the `client`
+
 
 ### Executing program
 
-* How to run the program
-npm install 
+#### Startup client and server
 
-followed by
-npm install --save-dev @types/react@latest @types/react-dom@latest
+* to run the client on its own do the following in the root directory:
+```
+npm run start-client
+```
+* to run the server on its own do the following in the root directory:
+```
+npm run start-server
+```
+* to run the client and server concurrently do the following in the root directory:
+```
+npm run start
+```
+#### to run tests
 
-* Step-by-step bullets
+* to run client tests:
 ```
-code blocks for commands
+npm test-client
 ```
+This runs client tests in watch mode.
+
+* to run server tests:
+```
+npm test-client
+```
+This runs server tests in watch mode.
+
 
 ## Help
 
