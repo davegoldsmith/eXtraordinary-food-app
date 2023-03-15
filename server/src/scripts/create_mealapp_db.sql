@@ -26,7 +26,7 @@ CREATE SCHEMA IF NOT EXISTS mealapp_schema
 
 CREATE TABLE IF NOT EXISTS mealapp_schema.users
 (
-    user_id integer NOT NULL DEFAULT 'nextval('mealapp_schema.users_id_seq'::regclass)',
+    user_id SERIAL NOT NULL,
     email text COLLATE pg_catalog."default" NOT NULL,
     password text COLLATE pg_catalog."default" NOT NULL,
     api_hash text COLLATE pg_catalog."default" NOT NULL,
@@ -48,7 +48,7 @@ ALTER TABLE IF EXISTS mealapp_schema.users
 
 CREATE TABLE IF NOT EXISTS mealapp_schema.user_prefs
 (
-    id integer NOT NULL DEFAULT 'nextval('mealapp_schema.user_prefs_id_seq'::regclass)',
+    id SERIAL NOT NULL,
     preference_name text COLLATE pg_catalog."default" NOT NULL,
     preference_value text COLLATE pg_catalog."default",
     user_id integer NOT NULL,    
