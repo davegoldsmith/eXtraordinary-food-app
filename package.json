@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-server": "cd server && npm start",
+    "start-server": "cd server && npm run start-prod",
     "start-client": "cd client && npm run dev",
     "test-client": "cd client && npm test",
     "test-server": "cd server && npm test",
@@ -18,6 +18,7 @@
     "@types/sequelize": "^4.28.14",
     "bcrypt": "^5.1.0",
     "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
     "sequelize": "^6.29.3",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "@types/pg": "^8.6.6",

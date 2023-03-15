@@ -5,11 +5,11 @@ export const createUser = async (user: User) => {
   return User.create<User>(user);
 };
 
-export const getUser = async (user: User) => {
-  console.log("user.email = " + user.email);
+export const getUser = async (email: string) => {
+  console.log("user.email = " + email);
   return User.findOne({
     where: {
-      email: user.email
+      email
     },
   });  
 };
