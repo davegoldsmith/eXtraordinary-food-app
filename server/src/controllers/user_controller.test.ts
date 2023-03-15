@@ -30,7 +30,7 @@ afterEach(() => {
 
 
 describe("POST /api/v1/user endpoint", () => {
-	test("status code successfully 201 for saving a valid book", async () => {
+	test("status code successfully 201 for registering a new user", async () => {
 		// Act
 		const res = await request(app)
 			.post("/api/v1/user")
@@ -67,7 +67,7 @@ describe("GET /api/v1/user endpoint", () => {
 		// Act
 		const res = await request(app)
       .get("/api/v1/user")
-      .send({email: "bob.monkhouse@yourmail.com", password: "easy-peasy-password4"});
+      .query({email: "bob.monkhouse@yourmail.com", password: "easy-peasy-password4"});
 
 		// Assert
 		expect(res.statusCode).toEqual(200);
@@ -83,7 +83,7 @@ describe("GET /api/v1/user endpoint", () => {
     // Act
     const res = await request(app)
       .get("/api/v1/user")
-      .send({email: "bob.monkhouse@yourmail.com", password: "incorrect password"});
+      .query({email: "bob.monkhouse@yourmail.com", password: "incorrect password"});
 
     // Assert
     expect(res.statusCode).toEqual(401);
@@ -99,7 +99,7 @@ describe("GET /api/v1/user endpoint", () => {
     // Act
     const res = await request(app)
       .get("/api/v1/user")
-      .send({email: "fred.flintstone@yourmail.com", password: "password"});
+      .query({email: "fred.flintstone@yourmail.com", password: "password"});
 
     // Assert
     expect(res.statusCode).toEqual(400);
