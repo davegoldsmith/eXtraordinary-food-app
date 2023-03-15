@@ -4,13 +4,22 @@ import * as mealPlannerWeeklyService from "../services/get_weekly_meal_planner";
 
 export const getDayMealPlanner = async (req: Request, res: Response) => {
   const dayMealPlanner = await mealPlannerDayService.getDayMealPlanner();
-  console.log(dayMealPlanner);
+  res.json(dayMealPlanner).status(200);
+};
+
+export const getDayCalorieMealPlanner = async (
+  req: Request<object, object, object, { targetCalories: number }>,
+  res: Response
+) => {
+  const inputTargetCalories = req.query.targetCalories;
+  const dayMealPlanner = await mealPlannerDayService.getDayCalorieMealPlanner(
+    inputTargetCalories
+  );
   res.json(dayMealPlanner).status(200);
 };
 
 export const getWeeklyMealPlanner = async (req: Request, res: Response) => {
   const weeklyMealPlanner =
     await mealPlannerWeeklyService.getWeeklyMealPlanner();
-  console.log(weeklyMealPlanner);
   res.json(weeklyMealPlanner).status(200);
 };
