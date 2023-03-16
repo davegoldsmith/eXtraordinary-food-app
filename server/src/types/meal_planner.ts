@@ -16,3 +16,14 @@ export interface MealPlanner {
   meals: Meals[];
   nutrients: Nutrients;
 }
+export interface WeeklyMealPlanner {
+  week: {
+    monday: MealPlanner;
+    tuesday: MealPlanner;
+    wednesday: MealPlanner;
+    thursday: MealPlanner;
+    friday: MealPlanner;
+    saturday: MealPlanner;
+    sunday: MealPlanner;
+  };
+}
