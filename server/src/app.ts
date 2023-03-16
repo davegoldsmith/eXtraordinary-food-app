@@ -1,10 +1,19 @@
 import express from "express";
-import { router } from "./routes/routes";
+// import { router } from './routes/routes';
 
 export const app = express();
+console.log("👉 Enabling JSON middleware...");
 app.use(express.json());
 
-// handlers
-app.get("/health", (req, res) => res.send("The eXtraordinary meal planner is alive and well!"));
+console.log("👉 Enabling URL-Encoded middleware...");
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/', router);
+console.log("👉 Enabling CORS...");
+app.use(cors());
+
+// handlers
+app.get("/health", (req, res) =>
+  res.send("The eXtraordinary meal planner is alive and well!")
+);
+
+// app.use('/', router);

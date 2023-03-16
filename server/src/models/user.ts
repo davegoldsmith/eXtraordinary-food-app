@@ -66,6 +66,7 @@ User.init(
 );
 
 User.beforeCreate(async (user, options) => {
+	console.log("In beforeCreate");
   const exists = await User.findOne({
     where: {
       email: user.email
