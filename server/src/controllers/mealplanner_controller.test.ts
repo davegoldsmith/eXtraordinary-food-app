@@ -1,7 +1,6 @@
 import request from "supertest";
 import { app } from "../app";
-import * as DayMealPlannerSpoonacularAPI from "../services/get_day_meal_planner";
-import * as WeeklyMealPlannerSpoonacularAPI from "../services/get_weekly_meal_planner";
+import * as MealPlannerSpoonacularAPI from "../services/mealPlanner_service";
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -9,8 +8,8 @@ afterEach(() => {
 
 const apiPrefix = "/api/v1";
 
-jest.mock("../services/get_day_meal_planner");
-jest.mock("../services/get_weekly_meal_planner");
+jest.mock("../services/mealPlanner_service.getDayMealPlanner");
+jest.mock("../services/mealPlanner_service.getWeeklyMealPlanner");
 
 const SAMPLEDATA = {
   meals: [
@@ -53,12 +52,12 @@ const SAMPLEDATA = {
 describe("Test DayMealPlanner endpoint request", () => {
   test("GET should return correct message", async () => {
     (
-      DayMealPlannerSpoonacularAPI.getDayMealPlanner as jest.Mock
+      MealPlannerSpoonacularAPI.getDayMealPlanner as jest.Mock
     ).mockResolvedValue(SAMPLEDATA);
     const res = await request(app).get(`${apiPrefix}/DayMealPlanner`);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual(SAMPLEDATA);
-    expect(DayMealPlannerSpoonacularAPI.getDayMealPlanner).toHaveBeenCalled();
+    expect(MealPlannerSpoonacularAPI.getDayMealPlanner).toHaveBeenCalled();
   });
 });
 
@@ -327,7 +326,7 @@ const SAMPLEWEEKLYDATA = {
 describe("Test WeeklyMealPlanner endpoint request", () => {
   test("GET should return correct message", async () => {
     (
-      WeeklyMealPlannerSpoonacularAPI.getWeeklyMealPlanner as jest.Mock
+      MealPlannerSpoonacularAPI.getWeeklyMealPlanner as jest.Mock
     ).mockResolvedValue(SAMPLEWEEKLYDATA);
 
     const res = await request(app).get(`${apiPrefix}/WeeklyMealPlanner`);
