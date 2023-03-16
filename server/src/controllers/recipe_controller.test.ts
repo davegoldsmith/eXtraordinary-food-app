@@ -34,3 +34,4 @@ describe('GET /recipe', () => {
         expect(recipeService.getRecipe).not.toHaveBeenCalled();
     });
 });
+
