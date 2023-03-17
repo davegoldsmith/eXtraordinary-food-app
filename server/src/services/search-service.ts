@@ -36,8 +36,9 @@ const searchParameters = (params : RecipeSearchParams):string  =>
   else{
     searchParams.set('number', DEFAULT_SEARCH_NUMBER.toString());
   }
-
+  searchParams.set('addRecipeNutrition', "false");
   console.log(" serach params=",  searchParams.toString());
+
 
   return searchParams.toString();
 }
