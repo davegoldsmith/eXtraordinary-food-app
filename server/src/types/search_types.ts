@@ -30,4 +30,5 @@ export interface RecipeSearchParams {
   maxCalories?: number;
   minFat?: number;
   maxFat?: number;
+  number? : number;
 }

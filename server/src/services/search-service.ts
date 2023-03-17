@@ -2,10 +2,12 @@ import { SearchResult } from "../types/search_types";
 import  {RecipeSearchParams} from '../types/search_types'
 import fetch from "node-fetch";
 const BASE_URL = "https://api.spoonacular.com/recipes/complexSearch";
+const DEFAULT_SEARCH_NUMBER = 100;
 
 const searchParameters = (params : RecipeSearchParams):string  =>
 {
   const searchParams = new URLSearchParams();
+  console.log("******* params", params)
 
   if (params.cuisine !== undefined) searchParams.set('cuisine', params.cuisine);
   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
@@ -26,6 +28,14 @@ const searchParameters = (params : RecipeSearchParams):string  =>
   if (params.maxCalories !== undefined) searchParams.set('maxCalories', params.maxCalories.toString());
   if (params.minFat !== undefined) searchParams.set('minFat', params.minFat.toString());
   if (params.maxFat !== undefined) searchParams.set('maxFat', params.maxFat.toString());
+  console.log("***** params.number", params.number);
+  if (params.number !== undefined) {
+
+    searchParams.set('number', params.number.toString());
+  }
+  else{
+    searchParams.set('number', DEFAULT_SEARCH_NUMBER.toString());
+  }
 
   console.log(" serach params=",  searchParams.toString());
 
