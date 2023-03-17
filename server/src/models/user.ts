@@ -8,6 +8,7 @@ import {
 import { sequelize } from "../database/database";
 import bcrypt from "bcrypt";
 import { ApiUser } from "../types/user_types";
+import { UserPrefs } from "./user_prefs";
 
 export class User extends Model<
 	InferAttributes<User>,
@@ -65,6 +66,12 @@ User.init(
 	}
 );
 
+// User.hasMany(UserPrefs, {
+//   foreignKey: "user_id"
+// });
+
+// UserPrefs.belongsTo(User);
+
 User.beforeCreate(async (user, options) => {
 	console.log("In beforeCreate");
   const exists = await User.findOne({
@@ -87,6 +94,8 @@ User.beforeCreate(async (user, options) => {
   const saltRounds = 8;
   user.password =  bcrypt.hashSync(user.password, saltRounds);
 });
+
+
 
 const connectUser = (async(user: User) => {
   const response = await fetch("https://api.spoonacular.com/users/connect", {

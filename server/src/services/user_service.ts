@@ -6,7 +6,6 @@ export const createUser = async (user: User) => {
 };
 
 export const getUser = async (email: string) => {
-  console.log("user.email = " + email);
   return User.findOne({
     where: {
       email

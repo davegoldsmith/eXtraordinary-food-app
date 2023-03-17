@@ -1,5 +1,5 @@
 
-import * as userService from "../services/users";
+import * as userService from "../services/user_service";
 import request from "supertest";
 import { app } from "../app";
 import { User } from "../models/user";
