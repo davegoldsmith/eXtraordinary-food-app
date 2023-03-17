@@ -10,13 +10,9 @@ function App() {
 
   return (
     <UserProvider>
-        {isLoggedIn === false ? (
-          <LoginForm setIsLoggedIn={setIsLoggedIn} />
-        ) : (
           <BrowserRouter>
             <Router />
           </BrowserRouter>
-        )}
     </UserProvider>
   );
 }

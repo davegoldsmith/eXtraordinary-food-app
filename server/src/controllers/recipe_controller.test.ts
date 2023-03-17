@@ -34,3 +34,42 @@ describe('GET /recipe', () => {
         expect(recipeService.getRecipe).not.toHaveBeenCalled();
     });
 });
+
+describe('GET /recipe/ext?url={url}', () => {
+    it('should return 400 if no URL is provided', async () => {
+      const response = await request(app).get(`${apiPrefix}/recipe/ext`);
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ message: 'No url provided' });
+    });
+
+    it('should call getRecipeFromURL service method and return the recipe if URL is provided', async () => {
+      const mockRecipe = { id: '1', name: 'Recipe 1', url: 'http://example.com/recipe1' };
+      (recipeService.getRecipeFromURL as jest.Mock).mockResolvedValue(mockRecipe);
+
+      const response = await request(app).get(`${apiPrefix}/recipe/ext?url=http://example.com/recipe1`);
+
+
+      expect(recipeService.getRecipeFromURL).toHaveBeenCalledWith('http://example.com/recipe1');
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(mockRecipe); 
+    });
+  });
+
+  describe('POST /recipe/save?url={url}', () => {
+    it('should return 400 if no URL is provided', async () => {
+      const response = await request(app).post(`${apiPrefix}/recipe/save`);
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ message: 'No url provided' });
+    });
+
+    it('should call saveRecipeFromURL service method and return the saved recipe if URL is provided', async () => {
+      const mockSavedRecipe = { id: '1', name: 'Recipe 1', url: 'http://example.com/recipe1' };
+      (recipeService.saveRecipeFromURL as jest.Mock).mockResolvedValue(mockSavedRecipe);
+
+      const response = await request(app).post(`${apiPrefix}/recipe/save?url=http://example.com/recipe1`);
+
+      expect(recipeService.saveRecipeFromURL).toHaveBeenCalledWith('http://example.com/recipe1');
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(mockSavedRecipe);
+    });
+  });
