@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as userService from "../services/users";
+import * as userService from "../services/user_service";
 import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {

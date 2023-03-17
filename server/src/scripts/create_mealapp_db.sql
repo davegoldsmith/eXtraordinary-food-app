@@ -48,11 +48,11 @@ ALTER TABLE IF EXISTS mealapp_schema.users
 
 CREATE TABLE IF NOT EXISTS mealapp_schema.user_prefs
 (
-    id SERIAL NOT NULL,
-    preference_name text COLLATE pg_catalog."default" NOT NULL,
-    preference_value text COLLATE pg_catalog."default",
+    pref_id SERIAL NOT NULL,
+    pref_name text COLLATE pg_catalog."default" NOT NULL,
+    pref_value text COLLATE pg_catalog."default" NOT NULL,
     user_id integer NOT NULL,    
-    CONSTRAINT user_pref_pk PRIMARY KEY (id),
+    CONSTRAINT user_pref_pk PRIMARY KEY (pref_id),
     CONSTRAINT user_prefs_user_fk FOREIGN KEY (user_id)
         REFERENCES mealapp_schema.users (user_id) MATCH SIMPLE
         ON UPDATE NO ACTION
