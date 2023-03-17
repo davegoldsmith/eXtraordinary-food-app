@@ -8,8 +8,7 @@ afterEach(() => {
 
 const apiPrefix = "/api/v1";
 
-jest.mock("../services/mealPlanner_service.getDayMealPlanner");
-jest.mock("../services/mealPlanner_service.getWeeklyMealPlanner");
+jest.mock("../services/mealPlanner_service");
 
 const SAMPLEDATA = {
   meals: [

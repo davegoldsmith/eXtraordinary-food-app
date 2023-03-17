@@ -5,7 +5,7 @@ import { app } from "../app";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";
 
-jest.mock("../services/users");
+jest.mock("../services/user_service");
 
 const getHashPassword = (password: string) => {
   const saltRounds = 8;
