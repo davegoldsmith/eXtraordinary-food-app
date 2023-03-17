@@ -14,9 +14,6 @@ export interface RecipeSearchParams {
   includeIngredients?: string;
   excludeIngredients?: string;
   type?: string;
-  instructionsRequired?: boolean;
-  fillIngredients?: boolean;
-  addRecipeInformation?: boolean;
   addRecipeNutrition?: boolean;
   titleMatch?: string;
   maxReadyTime?: number;
