@@ -1,13 +1,13 @@
 import { SearchResult } from "../types/search_types";
 import  {RecipeSearchParams} from '../types/search_types'
-import fetch from "node-fetch";
+//import fetch from "node-fetch";
 const BASE_URL = "https://api.spoonacular.com/recipes/complexSearch";
 const DEFAULT_SEARCH_NUMBER = 100;
 
 const searchParameters = (params : RecipeSearchParams):string  =>
 {
   const searchParams = new URLSearchParams();
-  console.log("******* params", params)
+  //console.log("******* params", params)
 
   if (params.cuisine !== undefined) searchParams.set('cuisine', params.cuisine);
   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
