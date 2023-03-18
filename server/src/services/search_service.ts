@@ -28,17 +28,14 @@ const searchParameters = (params : RecipeSearchParams):string  =>
   if (params.maxCalories !== undefined) searchParams.set('maxCalories', params.maxCalories.toString());
   if (params.minFat !== undefined) searchParams.set('minFat', params.minFat.toString());
   if (params.maxFat !== undefined) searchParams.set('maxFat', params.maxFat.toString());
-  console.log("***** params.number", params.number);
+  
   if (params.number !== undefined) {
-
     searchParams.set('number', params.number.toString());
   }
   else{
     searchParams.set('number', DEFAULT_SEARCH_NUMBER.toString());
   }
   searchParams.set('addRecipeNutrition', "false");
-  console.log(" serach params=",  searchParams.toString());
-
 
   return searchParams.toString();
 }
