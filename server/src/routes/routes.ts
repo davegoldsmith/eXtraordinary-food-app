@@ -3,6 +3,7 @@ import * as userController from "../controllers/user_controller";
 import * as userPrefsController from "../controllers/user_prefs_controller";
 import * as recipeController from "../controllers/recipe_controller";
 import * as mealplanner_controller from "../controllers/mealplanner_controller";
+import * as searchController from "../controllers/search_controller";
 
 export const router = express.Router();
 
@@ -20,3 +21,5 @@ router.post("/recipe/save", recipeController.saveRecipeFromURL);
 
 router.get("/DayMealPlanner", mealplanner_controller.getDayMealPlanner);
 router.get("/WeeklyMealPlanner", mealplanner_controller.getWeeklyMealPlanner);
+
+router.get("/search", searchController.getRecipeList);
