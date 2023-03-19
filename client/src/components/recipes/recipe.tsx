@@ -1,6 +1,6 @@
 import React from 'react';
 import { Step, ExtendedIngredient, Recipe, } from '../../types/recipe_types';
-import { Card, CardContent, Typography, CardMedia, CardHeader } from '@mui/material';
+import { Card, CardContent, Typography, CardMedia, CardHeader, Chip, Grid } from '@mui/material';
 
 interface RecipeProps {
     recipe: Recipe;
@@ -47,22 +47,40 @@ const RecipeComponent: React.FC<RecipeProps> = ({ recipe }) => {
         = recipe;
 
     return (
-        <Card>
+        <Card sx={{ width: '100%' }}>
             <CardHeader title={title} />
-            <CardMedia component="img" height="200" image={image} alt={title} />
+            <CardMedia component="img" height="400" image={image} alt={title} />
             <CardContent>
-                <Typography>
+                <Typography variant='h6' gutterBottom>
                     Dietary restrictions:{' '}
-                    {vegetarian && 'vegetarian, '}
-                    {vegan && 'vegan, '}
-                    {glutenFree && 'gluten-free, '}
-                    {dairyFree && 'dairy-free, '}
-                    {veryHealthy && 'very healthy, '}
-                    {cheap && 'cheap, '}
-                    {veryPopular && 'very popular, '}
-                    {sustainable && 'sustainable, '}
-                    {lowFodmap && 'low FODMAP, '}
                 </Typography>
+                <Grid container spacing={2}>
+                    {vegetarian && (<Grid item>
+                        <Chip label="Vegetarian" color="success" />
+                    </Grid>)}
+                    {vegan && (<Grid item>
+                        <Chip label="Vegan" color="success" />
+                    </Grid>)}
+                    {glutenFree && (<Grid item>
+                        <Chip label="Gluten Free" color="success" />
+                    </Grid>)}
+                    {dairyFree && (<Grid item>
+                        <Chip label="Dairy Free" color="success" />
+                    </Grid>)}
+                    {veryHealthy && (<Grid item>
+                        <Chip label="Very Healthy" color="success" />
+                    </Grid>)}
+                    {cheap && (<Grid item>
+                        <Chip label="Cheap" color="success" />
+                    </Grid>)}
+                    {veryPopular && (<Grid item>
+                        <Chip label="Very Popular" color="success" />
+                    </Grid>)}
+                    {sustainable && (<Grid item>
+                        <Chip label="Sustainable" color="success" />
+                    </Grid>)}
+                </Grid>
+
                 <Typography variant="h6" gutterBottom>
                     Ingredients:
                 </Typography>
