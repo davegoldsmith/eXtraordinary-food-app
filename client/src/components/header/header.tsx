@@ -1,45 +1,44 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { orange } from '@mui/material/colors';
-import Nav from './nav';
-import { NavLink, useNavigate } from 'react-router-dom';
-import Home from '../home/home';
-import { UserContext } from "../context/user_context_provider";
-import { useContext, useState } from "react";
-import { User } from '../../types/user_types';
-import LoginDrawer from '../login/login_drawer';
+import * as React from "react";
+import {
+  AppBar, Box, Toolbar, IconButton, Typography, Menu
+  , Container, Avatar, Button, Tooltip, MenuItem
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
+import {
+  UpdateUserContext,
+  UserContext,
+} from "../context/user_context_provider";
+import { useContext } from "react";
+import { User } from "../../types/user_types";
+import LoginDrawer from "../login/login_drawer";
+import { emptyUser, getUserInitials } from "../../helper/user_helper";
+import { deepOrange } from '@mui/material/colors';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 
-const pages = ['Home', 'Recipe Search', 'Meal Planner'];
-// const settings = ['Login'];
+const pages = ["Home", "Recipe Search", "Meal Planner"];
+const userLoggedInSettings = ["Sign Out", "Show User Preferences"];
+const userLoggedOutSettings = ["Sign In"];
 
 function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [userSettings, setUserSettings] = React.useState(Array<string>);
 
   const user = useContext(UserContext) as User;
-  const [isLoggedIn, setIsLoggedIn] = useState(user !== undefined);
+  const updateUser = useContext(UpdateUserContext);
+  console.dir(user);
 
   const navigate = useNavigate();
-  let settings = ['Login'];
-  if (isLoggedIn) {
-    settings = ["Log Out", "Show User Preferences"];
+  let settings = userLoggedOutSettings;
+  if (user.email.length > 0) {
+    settings = userLoggedInSettings;
   }
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -47,39 +46,40 @@ function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (page : string) => {
+  const handleCloseNavMenu = (page: string) => {
     if (page === "Home") {
       navigate("/");
     } else {
       navigate(`/${page}`);
       setAnchorElNav(null);
     }
-
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting: string) => {
+    if (setting === "Sign In") {
+      setIsOpen(true);
+    } else if (setting === "Sign Out") {
+      updateUser(emptyUser);
+    }
     setAnchorElUser(null);
   };
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
-    [prefersDarkMode],
-  );
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-    <AppBar position="static" >
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+          <Box
+            component="img"
+            sx={{
+              height: 64,
+              width: 64,
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+            }}
+            alt="Logo"
+            src="logo.png"
+          />
           <Typography
             variant="h5"
             noWrap
@@ -87,18 +87,19 @@ function Header() {
             href="/"
             sx={{
               mr: 4,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'Roboto',
+              ml: 4,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "Roboto",
               fontWeight: 700,
-              letterSpacing: '.1rem',
-              color: "#ffa500",
-              textDecoration: 'none',
+              letterSpacing: ".1rem",
+              color: "#ff5454",
+              textDecoration: "none",
             }}
           >
             Cook up a Storm!
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -109,65 +110,89 @@ function Header() {
             >
               <MenuIcon />
             </IconButton>
-            <Nav />
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={()=>{
-                  handleCloseNavMenu(page);
-                }}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page}
+                  onClick={() => {
+                    handleCloseNavMenu(page);
+                  }}
+                >
+                  <Typography fontFamily="Roboto" textAlign="center">
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+          <Box
+            component="img"
+            sx={{
+              height: 40,
+              width: 40,
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+            }}
+            alt="Logo"
+            src="logo.png"
+          />
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="a"
             href=""
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "Roboto",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".1rem",
+              color: "#ff5454",
+              textDecoration: "none",
+              textTransform: "capitalize",
             }}
           >
             Cook up a Storm!
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
-
-
+          <Box
+            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 10 }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={() => {
                   handleCloseNavMenu(page);
                 }}
-                sx={{ my: 2, color: 'white', display: 'block', fontWeight: 700,
-                letterSpacing: '.1rem', fontFamily: 'Roboto'}}
-                
+                sx={{
+                  my: 2,
+                  mr: 5,
+                  color: "white",
+                  display: "block",
+                  fontWeight: 600,
+                  letterSpacing: ".1rem",
+                  fontFamily: "Roboto",
+                  textTransform: "capitalize",
+                  fontSize: "1.5rem",
+                }}
               >
                 {page}
               </Button>
@@ -177,37 +202,41 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Big Dave" src="/static/images/avatar/2.jpg" />
+                <Avatar sx={{ bgcolor: deepOrange[500] }}>
+                  {getUserInitials(user).length > 0 ? getUserInitials(user) : <LoginRoundedIcon />}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-            <LoginDrawer/>
+            <LoginDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
-    </ThemeProvider>
   );
 }
 export default Header;

@@ -37,7 +37,7 @@ User.init(
 		},
 		api_hash: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: true,
 		},
 		first_name: {
 			type: DataTypes.STRING,
@@ -54,7 +54,7 @@ User.init(
 		},
     user_name: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: true,
 		},    
 	},
 	{
@@ -79,7 +79,9 @@ User.beforeCreate(async (user, options) => {
       email: user.email
     },
   }); 
+	console.dir(exists);
   if (exists !== null) {
+
     throw new Error("User with the given email already exists.");
   } else {
     try {
@@ -87,6 +89,7 @@ User.beforeCreate(async (user, options) => {
       const connUser = await response.json() as ApiUser;
       console.log(JSON.stringify(connUser));
       user.api_hash = connUser.hash;
+			user.user_name = connUser.username;
     } catch (e) {
       throw new Error(`Error while creating new user: ${e}`);
     }
@@ -101,7 +104,7 @@ const connectUser = (async(user: User) => {
   const response = await fetch("https://api.spoonacular.com/users/connect", {
     headers: {
       "Content-Type": "application/json",
-      "X-API-KEY": `${process.env.API_KEY}`,
+      "X-API-KEY": `${process.env.SPOONACULAR_API_KEY}`,
     },
     method: "POST",
     body: JSON.stringify(user),

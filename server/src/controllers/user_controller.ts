@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {
   const userToBeCreated = req.body;
+  console.dir(userToBeCreated);
   try {
     const user = await userService.createUser(userToBeCreated);
     res.status(201).json(user);

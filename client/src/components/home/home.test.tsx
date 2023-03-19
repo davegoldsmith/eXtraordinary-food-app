@@ -4,7 +4,7 @@ import Home from './home';
 describe("<HomePage />", () => {
     test('renders the welcome text', () => {
         render(<Home />);
-        const introElement = screen.getByText(/Welcome to Cookup a Storm website/i);
+        const introElement = screen.getByText(/Welcome to Cook up a Storm website/i);
         expect(introElement).toBeInTheDocument();
     });
 })
