@@ -1,11 +1,10 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography } from "@mui/material";
 
 const Home: React.FC = () => {
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom sx={{color: "lightblue"}}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ color: "lightblue" }}>
         Welcome to Cook up a Storm website
       </Typography>
       <Typography variant="body1" component="h2" gutterBottom>
