@@ -59,7 +59,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleDrawer }) => {
   };
 
   return (
-    <Container component="form" maxWidth="xs">
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
