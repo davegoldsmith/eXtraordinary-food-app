@@ -1,7 +1,5 @@
 import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import { Tabs, Tab, Box } from "@mui/material";
 import LoginTabPanel from "./login_tab_panel";
 import LoginForm from "./login_form";
 import RegisterForm from "./register_form";

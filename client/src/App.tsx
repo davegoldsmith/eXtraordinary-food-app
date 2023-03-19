@@ -5,8 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import UserProvider from "./components/context/user_context_provider";
 import LoginForm from "./components/login/login_form";
 import "./styles.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +30,7 @@ function App() {
           <Router />
         </BrowserRouter>
       </UserProvider>
-     </ThemeProvider>
+    </ThemeProvider>
   );
 }
 
