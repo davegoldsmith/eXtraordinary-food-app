@@ -1,11 +1,6 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+import { Avatar, Button, TextField, Box, Typography, Container } from "@mui/material";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Copyright from "./login_copyright";
 import { FormEvent, useContext, useState } from "react";
 import { SignUpChangeHandler, SignUpData, User } from "../../types/user_types";
@@ -22,7 +17,7 @@ const defaultSignUpData: SignUpData = {
 };
 
 interface RegisterFormProps {
-  toggleDrawer: (open: boolean) => void; 
+  toggleDrawer: (open: boolean) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ toggleDrawer }) => {

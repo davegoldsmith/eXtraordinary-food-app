@@ -5,17 +5,11 @@ import { FormError } from "../../types/error_types";
 import { User } from "../../types/user_types";
 import { UpdateUserContext } from "../context/user_context_provider";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar, Button, TextField, FormControlLabel, Checkbox,
+  Link, Grid, Box, Typography, Container
+} from "@mui/material";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Copyright from "./login_copyright";
 
 interface loginProps {
@@ -25,7 +19,7 @@ interface loginProps {
 }
 
 const LoginForm: React.FC<loginProps> = (props: loginProps) => {
-  const {setIsLoggedIn, toggleDrawer, switchTab} = props;
+  const { setIsLoggedIn, toggleDrawer, switchTab } = props;
   const [errorMessages, setErrorMessages] = useState<Array<FormError>>([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -124,7 +118,7 @@ const LoginForm: React.FC<loginProps> = (props: loginProps) => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2" onClick={(e)=> switchTab(e,1)}>
+              <Link href="#" variant="body2" onClick={(e) => switchTab(e, 1)}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Typography, Box } from '@mui/material';
 
 interface LoginTabPanelProps {
   children?: React.ReactNode;
