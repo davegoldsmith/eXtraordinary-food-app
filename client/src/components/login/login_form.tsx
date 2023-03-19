@@ -53,7 +53,7 @@ const LoginForm: React.FC<loginProps> = (props: loginProps) => {
   };
 
   return (
-    <Container component="form" maxWidth="xs">
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
