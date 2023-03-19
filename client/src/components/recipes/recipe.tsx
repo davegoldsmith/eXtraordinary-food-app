@@ -76,7 +76,6 @@ const RecipeComponent: React.FC<RecipeProps> = ({ recipe }) => {
                 <Typography variant="h6" gutterBottom>
                     Instructions:
                 </Typography>
-                <Typography>{instructions}</Typography>
                 <ul>
                     {analyzedInstructions[0].steps.map((step: Step) => (
                         <li key={step.number}>
