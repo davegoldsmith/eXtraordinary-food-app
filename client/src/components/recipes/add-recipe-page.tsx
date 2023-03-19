@@ -13,7 +13,9 @@ const AddRecipePage: React.FC = () => {
     const urlInput = document.getElementById("recipe-url-input") as HTMLInputElement;
     const url = urlInput.value.trim();
 
-    if (!url) {
+    // Check if the entered URL is valid
+    const urlPattern = /^(http|https):\/\/([\w.]+\/?)\S*/;
+    if (!url || !urlPattern.test(url)) {
       setError("Please enter a valid URL.");
       return;
     }
