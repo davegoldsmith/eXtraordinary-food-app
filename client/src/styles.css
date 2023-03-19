@@ -262,7 +262,7 @@ p {
   .navigation,
   .header,
   .footer {
-    background-color: var(--dark-header);
+    background-color: #ffa500;
   }
 }
 

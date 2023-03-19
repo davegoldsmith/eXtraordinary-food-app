@@ -1,40 +1,55 @@
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import LoginTabPanel from './login_tab_panel';
-import LoginForm from './login_form';
+import * as React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import LoginTabPanel from "./login_tab_panel";
+import LoginForm from "./login_form";
+import RegisterForm from "./register_form";
 
-function a11yProps(index: number) {
+const tabProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
+};
+
+interface LoginTabsProps {
+  toggleDrawer: (open: boolean) => void;
 }
 
-export default function LoginTabs() {
+const LoginTabs: React.FC<LoginTabsProps> = (props: LoginTabsProps) => {
+  const { toggleDrawer } = props;
   const [value, setValue] = React.useState(0);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const switchTab = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Login" {...a11yProps(0)} />
-          <Tab label="Register" {...a11yProps(1)} />
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={switchTab}
+          aria-label="Sign in and sign up tabs"
+        >
+          <Tab label="Sign In" {...tabProps(0)} />
+          <Tab label="Sign Up" {...tabProps(1)} />
         </Tabs>
       </Box>
       <LoginTabPanel value={value} index={0}>
-        <LoginForm setIsLoggedIn={setIsLoggedIn} />
+        <LoginForm
+          setIsLoggedIn={setIsLoggedIn}
+          toggleDrawer={toggleDrawer}
+          switchTab={switchTab}
+        />
       </LoginTabPanel>
       <LoginTabPanel value={value} index={1}>
-        Item Two
+        <RegisterForm toggleDrawer={toggleDrawer} />
       </LoginTabPanel>
     </Box>
   );
-}
+};
+
+export default LoginTabs;

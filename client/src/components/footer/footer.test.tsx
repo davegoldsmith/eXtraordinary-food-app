@@ -9,7 +9,7 @@ describe("<Footer/>", () => {
         <Footer />
       </BrowserRouter>
     );
-    const titleElement = screen.getByText(/extraordinary Websites Inc/i);
+    const titleElement = screen.getByText(/extraordinary Websites/i);
     expect(titleElement).toBeInTheDocument();
   });
 });
