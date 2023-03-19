@@ -16,7 +16,7 @@ export const getUser = async (email: string, password: string) => {
     if (response.ok) {
       return (await response.json()) as User;
     } else {
-      throw Error("blah");
+      throw Error;
     }
   } catch (e) {
     throw new Error("Failed to authenticate user");

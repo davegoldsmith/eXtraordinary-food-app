@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import { emptyUser } from "../../helper/user_helper";
 import { User } from "../../types/user_types";
 
 interface UserProviderProps {
@@ -9,15 +10,7 @@ export const UserContext = React.createContext({} as User);
 export const UpdateUserContext = React.createContext((user: User) => {});
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User>({
-    user_id: -1,
-    first_name: "",
-    last_name: "",
-    user_name: "",
-    email: "",
-    password: "",
-    api_hash: "",
-  });
+  const [currentUser, setCurrentUser] = useState<User>(emptyUser);
   return (
     <UserContext.Provider value={currentUser}>
       <UpdateUserContext.Provider value={setCurrentUser}>
