@@ -15,19 +15,17 @@ const LoginDrawer: React.FC<LoginDrawerProps> = ({ isOpen, setIsOpen }) => {
   };
 
   return (
-    <div>
       <React.Fragment>
         <Drawer
           anchor={anchor}
           open={isOpen}
           onClose={(e) => toggleDrawer(false)}
         >
-          <Box sx={{ width: 350 }} role="presentation">
+          <Box sx={{ width: 375 }} role="presentation">
             <LoginTabs toggleDrawer={toggleDrawer} />
           </Box>
         </Drawer>
       </React.Fragment>
-    </div>
   );
 };
 
