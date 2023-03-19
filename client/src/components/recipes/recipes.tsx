@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createTheme, ThemeProvider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
+import { FormControl, InputLabel, createTheme, ThemeProvider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import { SearchResult, RecipeSearchResults, RecipeSearchParams } from '../../types/search_types';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -16,49 +16,64 @@ const Recipes: React.FC = () => {
     const [vegetarianOnly, setVegetarianOnly] = useState(false);
     const [searchText, setSearchText] = useState("");
 
+    const cuisineList: string[] = ['All', 'African', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese',
+        'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian',
+        'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern',
+        'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese']
+
     function FilterPanel() {
 
         return (
             <>
                 <Drawer anchor="right" open={sidePanelOpen} onClose={() => setSidePanelOpen(false)}>
-                    <List sx={{ width: 200, mt: 2, mb: 2 }}>
-                        <ListItem>
-                            <ListItemText primary="Search Filters" />
-                        </ListItem>
-                        <ListItem>
-                            <Select
-                                label="Cuisine"
-                                value={cuisine}
-                                onChange={handleCuisineChange}
-                                fullWidth
-                            >
-                                <MenuItem value="">Any Cuisine</MenuItem>
-                                <MenuItem value="italian">Italian</MenuItem>
-                                <MenuItem value="mexican">Mexican</MenuItem>
-                                <MenuItem value="chinese">Chinese</MenuItem>
-                            </Select>
-                        </ListItem>
-                        <ListItem>
-                            <TextField
-                                label="Search Text"
-                                value={searchText}
-                                onChange={handleSearchTextChange}
-                                fullWidth
-                            />
-                        </ListItem>
-                        <ListItem>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={vegetarianOnly}
-                                        onChange={handleVegetarianOnlyChange}
-                                        color="primary"
-                                    />
-                                }
-                                label="Vegetarian Only"
-                            />
-                        </ListItem>
-                    </List>
+                    <FormControl variant='outlined' style={{ width: '100%' }}>
+                        <List sx={{ width: 250, mt: 2, mb: 2 }}>
+                            <ListItem>
+                                <ListItemText primary="Search Filters" />
+                            </ListItem>
+                            <ListItem style={{ margin: 0 }}>
+                                <InputLabel id="Cusisine-select-label">Cuisine</InputLabel>
+                                <Select
+                                    //multiple
+                                    value={cuisine}
+                                    onChange={handleCuisineChange}
+                                    labelId="Cusisine-select-label"
+                                    label={"Cuisine"}
+                                    //size='medium'
+                                    fullWidth
+                                >
+                                    {cuisineList.map((value, key) => {
+                                        return (
+
+                                            <MenuItem key={key} value={value}>
+                                                {value}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </ListItem>
+                            <ListItem>
+                                <TextField
+                                    label="Search Text"
+                                    value={searchText}
+                                    onChange={handleSearchTextChange}
+                                    fullWidth
+                                />
+                            </ListItem>
+                            <ListItem>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={vegetarianOnly}
+                                            onChange={handleVegetarianOnlyChange}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Vegetarian Only"
+                                />
+                            </ListItem>
+                        </List>
+                    </FormControl>
                 </Drawer>
             </>
         )
@@ -115,7 +130,7 @@ const Recipes: React.FC = () => {
         //console.log("******* params", params)
 
         console.log("**8cuisine**", cuisine)
-        if (cuisine !== "") searchParams.set('cuisine', cuisine);
+        if (cuisine !== null) searchParams.set('cuisine', cuisine);
         //   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
         //   if (params.diet !== undefined) searchParams.set('diet', params.diet);
         //   if (params.intolerances !== undefined) searchParams.set('intolerances', params.intolerances);
@@ -155,11 +170,17 @@ const Recipes: React.FC = () => {
 
     useEffect(() => {
         fetchRecipe();
+        console.log(" fetch recipe")
     }, [cuisine]);
 
     const handleCuisineChange = (event) => {
-        setCuisine(event.target.value);
-        console.log("**** value =>", event.target.value)
+        if (event.target.value !== "All") {
+            setCuisine(event.target.value);
+        }
+        else {
+            setCuisine('');
+        }
+        console.log("****  handleCuisineChange =>", event.target.value)
     };
 
     const handleVegetarianOnlyChange = (event) => {
