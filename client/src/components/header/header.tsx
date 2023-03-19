@@ -1,7 +1,16 @@
 import * as React from "react";
 import {
-  AppBar, Box, Toolbar, IconButton, Typography, Menu
-  , Container, Avatar, Button, Tooltip, MenuItem
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
@@ -13,12 +22,17 @@ import { useContext } from "react";
 import { User } from "../../types/user_types";
 import LoginDrawer from "../login/login_drawer";
 import { emptyUser, getUserInitials } from "../../helper/user_helper";
-import { deepOrange } from '@mui/material/colors';
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import { deepOrange } from "@mui/material/colors";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 const pages = ["Home", "Recipe Search", "Meal Planner"];
 const userLoggedInSettings = ["Sign Out", "Show User Preferences"];
 const userLoggedOutSettings = ["Sign In"];
+const routeMap = new Map<string,string>([
+  ["Home", "/"],
+  ["Recipe Search", "/recipes"],
+  ["Meal Planner", "/mealPlanner"],
+]);
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -47,10 +61,9 @@ function Header() {
   };
 
   const handleCloseNavMenu = (page: string) => {
-    if (page === "Home") {
-      navigate("/");
-    } else {
-      navigate(`/${page}`);
+    const route = routeMap.get(page);
+    if (route) {
+      navigate(route);
       setAnchorElNav(null);
     }
   };
@@ -78,7 +91,7 @@ function Header() {
               mr: 1,
             }}
             alt="Logo"
-            src="logo.png"
+            src="../logo.png"
           />
           <Typography
             variant="h5"
@@ -203,7 +216,11 @@ function Header() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar sx={{ bgcolor: deepOrange[500] }}>
-                  {getUserInitials(user).length > 0 ? getUserInitials(user) : <LoginRoundedIcon />}
+                  {getUserInitials(user).length > 0 ? (
+                    getUserInitials(user)
+                  ) : (
+                    <LoginRoundedIcon />
+                  )}
                 </Avatar>
               </IconButton>
             </Tooltip>

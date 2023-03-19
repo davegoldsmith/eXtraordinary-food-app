@@ -44,8 +44,8 @@ export interface AnalyzedInstruction {
 export interface Step {
     number:      number;
     step:        string;
-    ingredients: Ent[];
-    equipment:   Ent[];
+    ingredients?: Ent[];
+    equipment?:   Ent[];
     length?:     Length;
 }
 
