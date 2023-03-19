@@ -19,10 +19,12 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>(emptyUser);
   const [userPrefs, setUserPrefs] = useState<Array<UserPreference>>([]);
   useEffect(() => {
+    console.log("fired useEffect");
+    console.log("user_id = " + currentUser.user_id);
     if (currentUser.user_id != -1) {
       getUserPreferences(setUserPrefs, `${currentUser.user_id}`);
     }
-  }, [setCurrentUser]);
+  }, [currentUser]);
   return (
     <UserContext.Provider value={currentUser}>
       <UpdateUserContext.Provider value={setCurrentUser}>

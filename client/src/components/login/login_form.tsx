@@ -6,10 +6,25 @@ import { User } from "../../types/user_types";
 import { UpdateUserContext } from "../context/user_context_provider";
 import * as React from "react";
 import {
-  Avatar, Button, TextField, FormControlLabel, Checkbox,
-  Link, Grid, Box, Typography, Container
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./login_copyright";
 
 interface loginProps {
@@ -24,6 +39,15 @@ const LoginForm: React.FC<loginProps> = (props: loginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useContext(UpdateUserContext);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const errorMessage = (inputId: string) =>
     errorMessages.find((message) => message.inputName === inputId);
@@ -99,6 +123,7 @@ const LoginForm: React.FC<loginProps> = (props: loginProps) => {
             helperText={errorMessage("password")?.message}
             autoComplete="current-password"
           />
+
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -112,11 +137,6 @@ const LoginForm: React.FC<loginProps> = (props: loginProps) => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link href="#" variant="body2" onClick={(e) => switchTab(e, 1)}>
                 {"Don't have an account? Sign Up"}
