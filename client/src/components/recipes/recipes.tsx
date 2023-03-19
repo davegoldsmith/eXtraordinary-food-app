@@ -3,112 +3,142 @@ import { createTheme, ThemeProvider, List, ListItem, ListItemButton, ListItemIco
 import { SearchResult, RecipeSearchResults } from '../../types/search_types';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { useNavigate } from "react-router-dom"
 
 
 
 const Recipes: React.FC = () => {
 
+    function FilterPanel() {
+
+        return (
+            <>
+                <Drawer anchor="right" open={sidePanelOpen} onClose={() => setSidePanelOpen(false)}>
+                    <List sx={{ width: 200 }}>
+                        <ListItem>
+                            <ListItemText primary="Search Filters" />
+                        </ListItem>
+                        <ListItem>
+                            <Select
+                                label="Cuisine"
+                                value={cuisine}
+                                onChange={handleCuisineChange}
+                                fullWidth
+                            >
+                                <MenuItem value="">Any Cuisine</MenuItem>
+                                <MenuItem value="italian">Italian</MenuItem>
+                                <MenuItem value="mexican">Mexican</MenuItem>
+                                <MenuItem value="chinese">Chinese</MenuItem>
+                            </Select>
+                        </ListItem>
+                        <ListItem>
+                            <TextField
+                                label="Search Text"
+                                value={searchText}
+                                onChange={handleSearchTextChange}
+                                fullWidth
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={vegetarianOnly}
+                                        onChange={handleVegetarianOnlyChange}
+                                        color="primary"
+                                    />
+                                }
+                                label="Vegetarian Only"
+                            />
+                        </ListItem>
+                    </List>
+                </Drawer>
+            </>
+        )
+    };
+
+    function SearchResultGrid() {
+
+        const navigate = useNavigate();
+        function handleCardClick(recipe: SearchResult) {
+
+            console.log("******* click =>",recipe.id );
+            navigate(`/recipe/${recipe.id}`)
+
+         }
+
+        return (
+            <>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <button onClick={() => setSidePanelOpen(true)}>Search Filter</button>
+                    {/* <Typography variant="h1" align="center" sx={{ mb: 5 }}>
+        Recipe Search Results
+      </Typography> */}
+                    <Grid container spacing={2} >
+                        {searchResult.map((recipe) => (
+                            <Grid item xs={12} sm={6} md={4} key={recipe.id}>
+                                 <Card sx={{ maxWidth: 345, height: "100%", mt: 1 }} onClick={() => handleCardClick(recipe)}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            height="140"
+                                            image={recipe.image}
+                                            alt="Food"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                                {recipe.title}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+
+                </ThemeProvider>
+            </>
+        )
+    };
+
     const theme = createTheme();
 
 
-  const [searchResult, setSearchResult] = useState<Array<SearchResult>>([]);
-  const [sidePanelOpen, setSidePanelOpen] = useState(false);
-  const [cuisine, setCuisine] = useState("");
-  const [vegetarianOnly, setVegetarianOnly] = useState(false);
-  const [searchText, setSearchText] = useState("");
+    const [searchResult, setSearchResult] = useState<Array<SearchResult>>([]);
+    const [sidePanelOpen, setSidePanelOpen] = useState(false);
+    const [cuisine, setCuisine] = useState("");
+    const [vegetarianOnly, setVegetarianOnly] = useState(false);
+    const [searchText, setSearchText] = useState("");
 
-  const fetchRecipe = async () => {
-    const response = await fetch(`http://localhost:3000/api/v1/search?`);
-    const data = await response.json();
-    console.log("****** client serach result =>", data.results);
-    setSearchResult(data.results);
-  };
+    const fetchRecipe = async () => {
+        const response = await fetch(`http://localhost:3000/api/v1/search?`);
+        const data = await response.json();
+        console.log("****** client serach result =>", data.results);
+        setSearchResult(data.results);
+    };
 
-  useEffect(() => {
-    fetchRecipe();
-  }, []);
+    useEffect(() => {
+        fetchRecipe();
+    }, []);
 
-  const handleCuisineChange = (event) => {
-    setCuisine(event.target.value);
-  };
+    const handleCuisineChange = (event) => {
+        setCuisine(event.target.value);
+    };
 
-  const handleVegetarianOnlyChange = (event) => {
-    setVegetarianOnly(event.target.checked);
-  };
+    const handleVegetarianOnlyChange = (event) => {
+        setVegetarianOnly(event.target.checked);
+    };
 
-  const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value);
-  };
+    const handleSearchTextChange = (event) => {
+        setSearchText(event.target.value);
+    };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <button onClick={() => setSidePanelOpen(true)}>Search Filter</button>
-      {/* <Typography variant="h1" align="center" sx={{ mb: 5 }}>
-        Recipe Search Results
-      </Typography> */}
-      <Grid container spacing={2} >
-        {searchResult.map((recipe) => (
-          <Grid item xs={12} sm={6} md={4} key={recipe.id}>
-            <Card sx={{ maxWidth: 345, height: "100%", mt: 5  }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={recipe.image}
-                  alt="Food"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {recipe.title}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-      <Drawer anchor="right" open={sidePanelOpen} onClose={() => setSidePanelOpen(false)}>
-        <List sx={{ width: 250 }}>
-          <ListItem>
-            <ListItemText primary="Search Filters" />
-          </ListItem>
-          <ListItem>
-            <Select
-              label="Cuisine"
-              value={cuisine}
-              onChange={handleCuisineChange}
-              fullWidth
-            >
-              <MenuItem value="">Any Cuisine</MenuItem>
-              <MenuItem value="italian">Italian</MenuItem>
-              <MenuItem value="mexican">Mexican</MenuItem>
-              <MenuItem value="chinese">Chinese</MenuItem>
-            </Select>
-          </ListItem>
-          <ListItem>
-            <TextField
-              label="Search Text"
-              value={searchText}
-              onChange={handleSearchTextChange}
-              fullWidth
-            />
-          </ListItem>
-          <ListItem>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={vegetarianOnly}
-                  onChange={handleVegetarianOnlyChange}
-                  color="primary"
-                />
-              }
-              label="Vegetarian Only"
-            />
-          </ListItem>
-        </List>
-      </Drawer>
-     
-    </ThemeProvider>)
+    return (
+        <>
+            <FilterPanel />
+            <SearchResultGrid />
+        </>
+    )
 };
 export default Recipes;
