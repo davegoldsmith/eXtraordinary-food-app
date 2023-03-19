@@ -1,37 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, TextField, Button } from "@mui/material";
-
+import { Recipe } from "../../types/recipe_types";
+import RecipeComponent from "./recipe";
 
 const AddRecipePage: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [recipeData, setRecipeData] = useState<Recipe | null>(null);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Add logic to save recipe URL
+    const urlInput = document.getElementById("recipe-url-input") as HTMLInputElement;
+    const url = urlInput.value.trim();
+
+    if (!url) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/recipe/ext?url=${url}`);
+      const data = await response.json();
+      setRecipeData(data as Recipe);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div>
       <Typography variant="h3">Add a recipe</Typography>
       <Typography variant="body1" sx={{ mt: 2 }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin cursus
-        tellus sit amet ipsum malesuada, in fringilla risus feugiat. Aliquam
-        erat volutpat. Sed quis mollis magna. Nullam et ex quis augue
-        condimentum ultricies. Integer varius dignissim massa, eget elementum
-        lorem sagittis id. Ut maximus, mauris sit amet lacinia hendrerit, odio
-        enim blandit risus, vel laoreet risus nunc vel mi.
+        Found a great recipe elsewhere on the web? Add it here and keep them all in one place!
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
           id="recipe-url-input"
-          label="Recipe URL"
+          label="Link to the great recipe"
           variant="outlined"
           fullWidth
           margin="normal"
         />
         <Button variant="contained" color="primary" type="submit">
-          Save
+          Add
         </Button>
       </form>
-    </div> 
+      {recipeData && (
+        <RecipeComponent recipe={recipeData} />
+      )}
+    </div>
   );
 };
 
