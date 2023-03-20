@@ -1,4 +1,4 @@
-export interface Meals {
+export interface Meal {
   id: number;
   imageType: string;
   title: string;
@@ -13,14 +13,14 @@ export interface Nutrients {
   carbohydrates: number;
 }
 export interface MealPlanner {
-  meals: Meals[];
+  meals: Meal[];
   nutrients: Nutrients;
 }
-export interface DyMealPlanner {
-  meals: Meals[];
+export interface DayMealPlan {
+  meals: Meal[];
   nutrients: Nutrients;
 }
-export interface WeeklyMealPlanner {
+export interface WeeklyMealPlan {
   week: {
     monday: MealPlanner;
     tuesday: MealPlanner;
