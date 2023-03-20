@@ -48,7 +48,7 @@ const MealPlan: React.FC<MealPlanProps> = ({ mealData, timeFrame }) => {
                       <CardMedia
                         component="img"
                         height="250"
-                        image={`https://spoonacular.com/recipeImages/${meal.id}-90x90.${meal.imageType}`}
+                        image={`https://spoonacular.com/recipeImages/${meal.id}-480x360.${meal.imageType}`}
                         alt={meal.title}
                       />
                     </CardActionArea>
