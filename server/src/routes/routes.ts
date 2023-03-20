@@ -12,6 +12,7 @@ router.get("/user", userController.getUser);
 
 router.get("/userPrefs", userPrefsController.getAllUserPreferences);
 router.post("/userPrefs", userPrefsController.createUserPreference);
+router.put("/userPrefs", userPrefsController.updateUserPreferences);
 router.get("/userPrefs/:pref_name", userPrefsController.getUserPreference);
 router.put("/userPrefs/:pref_name", userPrefsController.updateUserPreference);
 

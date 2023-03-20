@@ -15,7 +15,7 @@ import {
   DialogTitle,
   Typography,
   TextField,
-  Divider
+  Divider,
 } from "@mui/material";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import MultipleSelectWithCheckboxes from "../general/multi_select_checks";
@@ -24,6 +24,8 @@ import {
   dietDefinitions,
   intolerencies,
 } from "../../helper/user_prefs_helper";
+import { getUserPreferences } from "../../api/get_user_prefs";
+import { updateUserPreferences } from "../../api/update_user_prefs";
 
 interface UserPreferenceProps {
   isOpen: boolean;
@@ -38,8 +40,15 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
   const updateUserPrefs = useContext(UpdateUserPreferencesContext);
   const user = useContext(UserContext) as User;
 
-  console.dir(userPrefs);
-  const handleClose = () => setIsOpen(false);
+  const handleClose = (reset: boolean) => {
+    const idString = `${user.user_id}`;
+    if (reset === true) {
+      getUserPreferences(updateUserPrefs, idString);
+    } else {
+      updateUserPreferences(userPrefs, idString);
+    }
+    setIsOpen(false);
+  };
 
   const updateUserPrefFromArray = (
     pref_name: string,
@@ -177,35 +186,15 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleClose}>
+        <Button variant="outlined" onClick={() => handleClose(true)}>
+          Ignore Changes
+        </Button>
+        <Button variant="outlined" onClick={() => handleClose(false)}>
           Save Preferences
         </Button>
       </DialogActions>
     </Dialog>
   );
-
-  // <Modal
-  //   open={isOpen}
-
-  //   aria-labelledby="modal-modal-title"
-  //   aria-describedby="modal-modal-description"
-  // >
-
-  //   <Box sx={style} >
-
-  //     <Typography id="modal-modal-title" variant="h6" component="h2">
-  //       Text in a modal
-  //     </Typography>
-  //     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-  //       Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-  //     </Typography>
-  //     <Button onClick= {handleClose}>
-  //       Exit
-  //     </Button>
-  //   </Box>
-
-  // </Modal>
-  // );
 };
 
 export default UserPreferences;

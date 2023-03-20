@@ -20,19 +20,21 @@ import {
 } from "../context/user_context_provider";
 import { useContext } from "react";
 import { User } from "../../types/user_types";
-import LoginDrawer from "../login/login_drawer";
 import { emptyUser, getUserInitials } from "../../helper/user_helper";
 import { deepOrange } from "@mui/material/colors";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import UserPreferences from "../user_preferences/user_preferences";
+import SideDrawer from "../general/side_drawer";
+import LoginTabs from "../login/login_register_tabs";
 
-const pages = ["Home", "Recipe Search", "Meal Planner"];
+const pages = ["Home", "Recipe Search", "Meal Planner", "Add Recipe"];
 const userLoggedInSettings = ["Sign Out", "Show User Preferences"];
 const userLoggedOutSettings = ["Sign In"];
 const routeMap = new Map<string, string>([
   ["Home", "/"],
   ["Recipe Search", "/recipes"],
   ["Meal Planner", "/mealPlanner"],
+  ["Add Recipe", "/recipe/add"]
 ]);
 
 function Header() {
@@ -78,6 +80,10 @@ function Header() {
       setPreferencesIsOpen(true);
     }
     setAnchorElUser(null);
+  };
+
+  const toggleLoginDrawer = (open: boolean) => {
+    setSignOnDrawerIsOpen(open);
   };
 
   return (
@@ -256,7 +262,9 @@ function Header() {
           </Toolbar>
         </Container>
       </AppBar>
-      <LoginDrawer isOpen={isSignOnDrawerOpen} setIsOpen={setSignOnDrawerIsOpen} />
+      <SideDrawer isOpen={isSignOnDrawerOpen} toggleDrawer={toggleLoginDrawer}>
+        <LoginTabs toggleDrawer={toggleLoginDrawer} />
+      </SideDrawer>
       <UserPreferences isOpen={isPreferencesOpen} setIsOpen={setPreferencesIsOpen} />
     </div>
   );

@@ -22,11 +22,11 @@ export const getUserPreference = async (userPrefs: UserPrefs) => {
   });  
 };
 
-export const updateUserPreference = async (user_id: number, pref_name: string, userPref: UserPrefs) => {
+export const updateUserPreference = async (userPref: UserPrefs) => {
 	return UserPrefs.update(userPref, {
 		where: {
-			user_id,
-      pref_name
+			user_id: userPref.user_id,
+      pref_name: userPref.pref_name
 		},
 	});
 };

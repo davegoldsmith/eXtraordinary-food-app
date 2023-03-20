@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { userInfo } from "os";
 import { UserPrefs } from "../models/user_prefs";
 import * as userPrefsService from "../services/user_prefs_service";
 
@@ -38,13 +39,38 @@ export const getUserPreference = async (req: Request<{pref_name: string}, object
 
 }
 
+export const updateUserPreferences = async  (req: Request<object, object, object, {user_id:number|undefined}>, res: Response) => {
+  console.log(req.body );
+  const userPrefs = req.body as UserPrefs[];
+  console.dir(userPrefs);
+  const { user_id } = req.query;
+  try {
+    userPrefs.forEach(async (userPref: UserPrefs) => {
+      if (userPref.pref_id) {
+        let updatedUserPref = await userPrefsService.updateUserPreference(userPref);
+      } else {
+        let newUserPref = await userPrefsService.createUserPreference(userPref);
+      }
+    })
+    
+    res.status(204).json({ message: `User Preferences for user_id '${user_id}' not found` });
+  } catch (error) {
+    let message = (error as Error).message;
+    res.status(400).json({ message });
+  }
+};
+
 export const updateUserPreference = async (req: Request<{pref_name: string}, object, object, {user_id:number|undefined}>, res: Response) => {
   const pref_name = req.params.pref_name;
   const { user_id } = req.query;
 	const prefUpdateData = req.body as UserPrefs;
+  if (user_id ) {
+    prefUpdateData.user_id = user_id;
+  }
+  prefUpdateData.pref_name = pref_name;
   
   if (user_id) {
-    const updatedUserPref = await userPrefsService.updateUserPreference(user_id, pref_name, prefUpdateData);
+    const updatedUserPref = await userPrefsService.updateUserPreference(prefUpdateData);
     console.dir(updatedUserPref);
     if (updatedUserPref[0] === 1) {
       res.status(204).json({message:`Preference '${pref_name}' for user_id '${user_id}' successfully updated`});
