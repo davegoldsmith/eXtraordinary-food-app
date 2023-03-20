@@ -11,7 +11,7 @@ import {
   DayMealPlannerContext,
   MealPlannerContext,
 } from "../context/mealPlanner_context_provider";
-import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner";
+import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner_types";
 import MealPlanner from "./meal_planner";
 
 const SAMPLEDATA = {
