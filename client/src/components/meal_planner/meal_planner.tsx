@@ -16,12 +16,27 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { DyMealPlanner } from "../../types/meal_planner";
+import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner";
+import { GenerateMealPlanner } from "./GenerateMealPlanner";
 
 const MealPlanner: React.FC = () => {
   const [timeFrame, setTimeFrame] = useState("day");
   const [diet, setDiet] = useState("No Diet");
-  const [exclude, setExclude] = useState({ dairy: false, Egg: false });
+  const [exclude, setExclude] = useState({
+    dairy: false,
+    egg: false,
+    gluten: false,
+    grain: false,
+    peanut: false,
+    seafood: false,
+    sesame: false,
+    shellfish: false,
+    soy: false,
+    sulfite: false,
+    treenut: false,
+    wheat: false,
+    corn: false,
+  });
   const [targetCalories, setTargetCalories] = useState<number>();
 
   /*const handleChangeExclude = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +49,38 @@ const MealPlanner: React.FC = () => {
       [event.target.name]: event.target.checked,
     });
   };
+  const {
+    dairy,
+    egg,
+    gluten,
+    grain,
+    peanut,
+    seafood,
+    sesame,
+    shellfish,
+    soy,
+    sulfite,
+    treenut,
+    wheat,
+    corn,
+  } = exclude;
+  /*const error =
+    [
+      dairy,
+      egg,
+      gluten,
+      grain,
+      peanut,
+      seafood,
+      sesame,
+      shellfish,
+      soy,
+      sulfite,
+      treenut,
+      wheat,
+      corn,
+    ].filter((v) => v).length !== 12; */
+
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTimeFrame((event.target as HTMLInputElement).value);
   };
@@ -42,26 +89,11 @@ const MealPlanner: React.FC = () => {
     setDiet(event.target.value as string);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setExclude(event.target.checked);
-  };
-
   let valuePass = "";
   const [dayMeals, setdayMeals] = useState<DyMealPlanner>();
-  const GenerateMealPlan = () => {
-    alert(targetCalories);
-    alert(diet);
-    alert(exclude);
-    alert(timeFrame);
-    /*
-    const requestDayMealPlannerService = async () => {
-      const data = await fetch(`http://localhost:3000/api/v1/DayMealPlanner`);
-      const json = await data.json();
-      setdayMeals(json);
-      console.log(json);
-      return json;
-    }; */
+  const [weeklyMeals, setWeeklyMeals] = useState<WeeklyMealPlanner>();
 
+  const GenerateMealPlan = () => {
     const requestDayMealPlannerService = async (appendUrl: string) => {
       const data = await fetch(
         `http://localhost:3000/api/v1/DayMealPlanner${appendUrl}`
@@ -76,7 +108,7 @@ const MealPlanner: React.FC = () => {
         `http://localhost:3000/api/v1/WeeklyMealPlanner${appendUrl}`
       );
       const json = await data.json();
-      setdayMeals(json);
+      setWeeklyMeals(json);
       console.log(json);
       return json;
     };
@@ -84,12 +116,28 @@ const MealPlanner: React.FC = () => {
     if (typeof targetCalories === "string" && targetCalories !== "")
       valuePass = `targetCalories=${targetCalories}&`;
     if (diet !== "") valuePass += `diet=${diet}&`;
-    if (exclude !== "") valuePass += `exclude=${exclude}&`;
+    //if ([...exclude] === true) valuePass += `exclude=${exclude}&`;
     if (valuePass !== "") {
       valuePass = "/?" + valuePass;
     }
-    if (timeFrame === "day") requestDayMealPlannerService(valuePass);
-    else requestWeeklyMealPlannerService(valuePass);
+    if (timeFrame === "day") {
+      requestDayMealPlannerService(valuePass);
+      <GenerateMealPlanner
+        timeFrame="day"
+        mealData={dayMeals as DyMealPlanner}
+      />;
+    } else {
+      requestWeeklyMealPlannerService(valuePass);
+      return (
+        <>
+          <Typography> Week </Typography>
+          <GenerateMealPlanner
+            timeFrame="week"
+            mealData={weeklyMeals as WeeklyMealPlanner}
+          />
+        </>
+      );
+    }
   };
 
   return (
@@ -140,13 +188,13 @@ const MealPlanner: React.FC = () => {
         <MenuItem value={"Ketogenic"}>Ketogenic</MenuItem>
         <MenuItem value={"Whole 30"}>Whole 30</MenuItem>
       </Select>
-
       <FormGroup>
+        <FormLabel component="legend">Intolerances</FormLabel>
         <FormControlLabel
           control={
             <Checkbox
-              //checked={Dairy}
-              onChange={handleChange}
+              // checked={dairy}
+              onChange={handleChangeExclude}
               name="Dairy"
               inputProps={{ "aria-label": "Dairy" }}
             />
@@ -156,8 +204,8 @@ const MealPlanner: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
-              //checked={Egg}
-              onChange={handleChange}
+              //checked={egg}
+              onChange={handleChangeExclude}
               inputProps={{ "aria-label": "Egg" }}
             />
           }
@@ -166,15 +214,114 @@ const MealPlanner: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
-              //checked={Egg}
-              onChange={handleChange}
+              //checked={gluten}
+              onChange={handleChangeExclude}
               inputProps={{ "aria-label": "Gluten" }}
             />
           }
           label="Gluten"
         />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={grain}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Grain" }}
+            />
+          }
+          label="Grain"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={peanut}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "peanut" }}
+            />
+          }
+          label="peanut"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={seafood}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "seafood" }}
+            />
+          }
+          label="seafood"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={sesame}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Sesame" }}
+            />
+          }
+          label="Sesame"
+        />{" "}
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={shellfish}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Shellfish" }}
+            />
+          }
+          label="Shellfish"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={soy}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Soy" }}
+            />
+          }
+          label="Soy"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={sulfite}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Sulfit" }}
+            />
+          }
+          label="Sulfite"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={treenut}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Tree Nut" }}
+            />
+          }
+          label="Tree Nut"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={wheat}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Wheat" }}
+            />
+          }
+          label="Wheat"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              //checked={corn}
+              onChange={handleChangeExclude}
+              inputProps={{ "aria-label": "Corn" }}
+            />
+          }
+          label="Corn"
+        />
       </FormGroup>
-
       <Stack direction="row" spacing={2}>
         <Button onClick={GenerateMealPlan}>Generate Meal Plan</Button>
       </Stack>
