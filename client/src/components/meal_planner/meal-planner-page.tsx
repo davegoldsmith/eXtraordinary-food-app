@@ -6,7 +6,7 @@ import {
   RadioGroup,
   CircularProgress
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DayMealPlan, WeekMealPlan } from "../../types/meal_planner_types";
 import MealPlan from "./meal-planner";
 
@@ -15,24 +15,30 @@ const MealPlanPage: React.FC = () => {
   const [mealPlan, setMealPlan] = useState<DayMealPlan | WeekMealPlan>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleTimeFrameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMealPlanType(event.target.value as "day" | "week");
-    setIsLoading(true);
+  useEffect(() => {
+    const getMealPlan = async () => {
+      setIsLoading(true);
+      let url = 'http://localhost:3000/api/v1/DayMealPlanner';
+  
+      if (mealPlanType === "week") {
+        url = 'http://localhost:3000/api/v1/WeekMealPlanner';
+      }
+      const data = await fetch(url);
+  
+      const json = await data.json();
+  
+      setMealPlan(json);
+      setIsLoading(false);
+  
+    };
     getMealPlan();
-    setIsLoading(false);
+
+
+  }, [mealPlanType]);
+
+  const handleTimeFrameChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMealPlanType(event.target.value as "day" | "week");
   };
-
-
-  const getMealPlan = async () => {
-    let url = 'http://localhost:3000/api/v1/DayMealPlanner';
-    if (mealPlanType === "week") {
-      url = 'http://localhost:3000/api/v1/WeekMealPlanner';
-    }
-    const data = await fetch(url);
-    const json = await data.json();
-    setMealPlan(json);
-  };
-
 
   return (
     <>
@@ -45,7 +51,10 @@ const MealPlanPage: React.FC = () => {
           defaultValue="day"
           name="timeFrame-radio-buttons-group"
           value={mealPlanType}
-          onChange={handleTimeFrameChange}
+          onChange={(e) =>
+            handleTimeFrameChange(e)
+          }
+
         >
           <FormControlLabel value="day" control={<Radio />} label="day" />
           <FormControlLabel value="week" control={<Radio />} label="week" />
