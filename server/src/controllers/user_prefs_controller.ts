@@ -42,14 +42,15 @@ export const getUserPreference = async (req: Request<{pref_name: string}, object
 export const updateUserPreferences = async  (req: Request<object, object, object, {user_id:number|undefined}>, res: Response) => {
   console.log(req.body );
   const userPrefs = req.body as UserPrefs[];
-  console.dir(userPrefs);
   const { user_id } = req.query;
   try {
     userPrefs.forEach(async (userPref: UserPrefs) => {
-      if (userPref.pref_id) {
-        let updatedUserPref = await userPrefsService.updateUserPreference(userPref);
+      const foundPref = await userPrefsService.getUserPreference(userPref);
+      console.dir(foundPref);
+      if (foundPref !== null) {
+        await userPrefsService.updateUserPreference(userPref);       
       } else {
-        let newUserPref = await userPrefsService.createUserPreference(userPref);
+        await userPrefsService.createUserPreference(userPref);
       }
     })
     
