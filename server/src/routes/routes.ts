@@ -20,6 +20,6 @@ router.get("/recipe/ext", recipeController.getRecipeFromURL); //TODO is ext a go
 router.post("/recipe/save", recipeController.saveRecipeFromURL);
 
 router.get("/DayMealPlanner", mealplanner_controller.getDayMealPlanner);
-router.get("/WeeklyMealPlanner", mealplanner_controller.getWeeklyMealPlanner);
+router.get("/WeekMealPlanner", mealplanner_controller.getWeeklyMealPlanner);
 
 router.get("/search", searchController.getRecipeList);
