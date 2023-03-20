@@ -67,7 +67,7 @@ const RecipeComponent: React.FC<RecipeProps> = ({ recipe }) => {
       >
         {title}
       </Typography>
-      <CardMedia component="img" height="400" image={image} alt={title} />
+      <CardMedia component="img" width="100%" height="auto" image={image} alt={title} />
       <CardContent>
         <Typography variant="h6" gutterBottom>
           Dietary restrictions:{" "}
