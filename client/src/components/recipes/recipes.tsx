@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FormControl, InputLabel, createTheme, ThemeProvider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
+import { FormControl, createTheme, ThemeProvider, List, ListItem, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import { SearchResult, RecipeSearchResults, RecipeSearchParams } from '../../types/search_types';
 import { useNavigate } from "react-router-dom"
-import { SelectCuisine } from './select-cuisine';
-import { SelectInput } from './select';
+import { SelectInput } from './Select';
 
 const BASE_URL = "http://localhost:3000/api/v1/search";
 
@@ -14,6 +13,7 @@ const Recipes: React.FC = () => {
     const [sidePanelOpen, setSidePanelOpen] = useState(false);
     const [cuisine, setCuisine] = useState("All");
     const [diet, setDiet] = useState("All");
+    const [mealType, setMealType] = useState("All");
     const [intolerances, setIntolerances] = useState("None");
     const [vegetarianOnly, setVegetarianOnly] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -23,8 +23,11 @@ const Recipes: React.FC = () => {
         'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern',
         'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'];
 
-    const intolerancesList: string[] = ['None','Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame',
+    const intolerancesList: string[] = ['None', 'Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame',
         'Shellfish', 'Soy', 'Sulfite', 'Tree Nut', 'Wheat'];
+
+    const mealTypeList: string[] = ['All', 'Main course', 'Side dish', 'Dessert', 'Appetizer', 'Salad', 'Bread',
+        'Breakfast', 'Soup', 'Beverage', 'Sauce', 'Marinade', 'Fingerfood', 'Snack', 'Drink']
 
     function FilterPanel() {
 
@@ -45,17 +48,26 @@ const Recipes: React.FC = () => {
                                 onChangeHandler={(newValue) => setCuisine(newValue)}
                                 options={cuisineList}
                             />
+
+                            <SelectInput
+                                id='mealtype'
+                                name='mealtype'
+                                value={mealType}
+                                label='Type'
+                                onChangeHandler={(newValue) => setMealType(newValue)}
+                                options={mealTypeList}
+                            />
                             <SelectInput
                                 id='intolerances'
                                 name='intolerances'
                                 value={intolerances}
                                 label='Intolerances'
-                                onChangeHandler={(newValue) => setDiet(newValue)}
+                                onChangeHandler={(newValue) => setIntolerances(newValue)}
                                 options={intolerancesList}
                             />
                             {/* <SearchText searchText={searchText} onChange={(newValue) => setSearchText(newValue)} /> */}
 
-                            <ListItem>
+                            {/* <ListItem>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -66,7 +78,7 @@ const Recipes: React.FC = () => {
                                     }
                                     label="Vegetarian Only"
                                 />
-                            </ListItem>
+                            </ListItem> */}
                         </List>
                     </FormControl>
                 </Drawer>
@@ -79,7 +91,6 @@ const Recipes: React.FC = () => {
         const navigate = useNavigate();
         function handleCardClick(recipe: SearchResult) {
 
-            console.log("******* click =>", recipe.id);
             navigate(`/recipe/${recipe.id}`)
 
         }
@@ -124,14 +135,13 @@ const Recipes: React.FC = () => {
         const searchParams = new URLSearchParams();
         //console.log("******* params", params)
 
-        console.log("**8cuisine**", cuisine)
         if (cuisine !== "All") searchParams.set('cuisine', cuisine);
         //   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
         //   if (params.diet !== undefined) searchParams.set('diet', params.diet);
-        //   if (params.intolerances !== undefined) searchParams.set('intolerances', params.intolerances);
+        if (intolerances !== "None") searchParams.set('intolerances', intolerances);
         //   if (params.includeIngredients !== undefined) searchParams.set('includeIngredients', params.includeIngredients);
         //   if (params.excludeIngredients !== undefined) searchParams.set('excludeIngredients', params.excludeIngredients);
-        //   if (params.type !== undefined) searchParams.set('type', params.type);
+        if (mealType !== "All") searchParams.set('type', mealType);
         if (searchText !== "") searchParams.set('titleMatch', searchText);
         //   if (params.maxReadyTime !== undefined) searchParams.set('maxReadyTime', params.maxReadyTime.toString());
         //   if (params.sort !== undefined) searchParams.set('sort', params.sort);
