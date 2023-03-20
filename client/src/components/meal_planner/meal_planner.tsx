@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner";
+import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner_types";
 import { GenerateMealPlanner } from "./GenerateMealPlanner";
 const SAMPLEDATA = {
   meals: [
