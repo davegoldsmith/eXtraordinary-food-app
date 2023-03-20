@@ -25,6 +25,8 @@ import { emptyUser, getUserInitials } from "../../helper/user_helper";
 import { deepOrange } from "@mui/material/colors";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import UserPreferences from "../user_preferences/user_preferences";
+import SideDrawer from "../general/side_drawer";
+import LoginTabs from "../login/login_register_tabs";
 
 const pages = ["Home", "Recipe Search", "Meal Planner"];
 const userLoggedInSettings = ["Sign Out", "Show User Preferences"];
@@ -78,6 +80,10 @@ function Header() {
       setPreferencesIsOpen(true);
     }
     setAnchorElUser(null);
+  };
+
+  const toggleLoginDrawer = (open: boolean) => {
+    setSignOnDrawerIsOpen(open);
   };
 
   return (
@@ -256,7 +262,10 @@ function Header() {
           </Toolbar>
         </Container>
       </AppBar>
-      <LoginDrawer isOpen={isSignOnDrawerOpen} setIsOpen={setSignOnDrawerIsOpen} />
+      {/* <LoginDrawer isOpen={isSignOnDrawerOpen} setIsOpen={setSignOnDrawerIsOpen} /> */}
+      <SideDrawer isOpen={isSignOnDrawerOpen} toggleDrawer={toggleLoginDrawer}>
+        <LoginTabs toggleDrawer={toggleLoginDrawer} />
+      </SideDrawer>
       <UserPreferences isOpen={isPreferencesOpen} setIsOpen={setPreferencesIsOpen} />
     </div>
   );
