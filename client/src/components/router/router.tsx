@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Recipes from "../recipes/recipes";
 import Home from "../home/home";
 import MainLayout from "../layouts/main_layout";
-import MealPlanner from "../meal_planner/meal_planner";
 import NotFound from "../not_found/not_found";
 import RecipePage from "../recipes/recipe-page";
 import AddRecipePage from "../recipes/add-recipe-page";
