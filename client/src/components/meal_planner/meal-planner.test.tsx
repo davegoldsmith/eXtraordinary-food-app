@@ -1,7 +1,8 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import React from "react";
+import { render } from "@testing-library/react";
+import MealPlan from "./meal-planner";
 
-const SAMPLEDATA = {
+const mockDayMealPlan = {
     meals: [
       {
         id: 1100990,
@@ -17,7 +18,7 @@ const SAMPLEDATA = {
         id: 653251,
         imageType: "jpg",
         title: "Noodles and Veggies With Peanut Sauce",
-        readyInMinutes: 30,
+        readyInMinutes: 40,
         servings: 4,
         sourceUrl:
           "https://spoonacular.com/noodles-and-veggies-with-peanut-sauce-653251",
@@ -27,7 +28,7 @@ const SAMPLEDATA = {
         imageType: "jpg",
         title: "Pasta With Chickpeas and Kale",
         readyInMinutes: 45,
-        servings: 4,
+        servings: 6,
         sourceUrl: "https://spoonacular.com/pasta-with-chickpeas-and-kale-654905",
       },
     ],
@@ -39,7 +40,7 @@ const SAMPLEDATA = {
     },
   };
   
-  const SAMPLEWEEKDATA = {
+  const mockWeekMealPlan = {
     week: {
       monday: {
         meals: [
@@ -300,4 +301,32 @@ const SAMPLEDATA = {
       },
     },
   };
-  
+
+
+
+describe("MealPlan", () => {
+  it("renders a day meal plan", () => {
+    const { getByText } = render(<MealPlan mealData={mockDayMealPlan} timeFrame="day" />);
+    expect(getByText("Blueberry, Chocolate & Cocao Superfood Pancakes - Gluten-Free/Paleo/Vegan")).toBeInTheDocument();
+    expect(getByText("Pasta With Chickpeas and Kale")).toBeInTheDocument();
+  });
+
+  it("renders a week meal plan", () => {
+    const { getByText } = render(<MealPlan mealData={mockWeekMealPlan} timeFrame="week" />);
+    expect(getByText("Easy Thai Fried Rice")).toBeInTheDocument();
+    expect(getByText("Basic Risotto")).toBeInTheDocument();
+  });
+
+  it("displays the number of servings for each meal", () => {
+    const { getByText } = render(<MealPlan mealData={mockDayMealPlan} timeFrame="day" />);
+    expect(getByText("No of Servings: 4")).toBeInTheDocument();
+    expect(getByText("No of Servings: 2")).toBeInTheDocument();
+  });
+
+  it("displays the time to cook for each meal", () => {
+    const { getByText } = render(<MealPlan mealData={mockDayMealPlan} timeFrame="day" />);
+    expect(getByText("Ready In Minutes: 30")).toBeInTheDocument();
+    expect(getByText("Ready In Minutes: 45")).toBeInTheDocument();
+  });
+
+});

@@ -6,28 +6,19 @@ export interface Meal {
   servings: number;
   sourceUrl: string;
 }
+
 export interface Nutrients {
   calories: number;
   protein: number;
   fat: number;
   carbohydrates: number;
 }
-export interface MealPlanner {
-  meals: Meal[];
-  nutrients: Nutrients;
-}
 export interface DayMealPlan {
   meals: Meal[];
   nutrients: Nutrients;
 }
-export interface WeeklyMealPlan {
-  week: {
-    monday: MealPlanner;
-    tuesday: MealPlanner;
-    wednesday: MealPlanner;
-    thursday: MealPlanner;
-    friday: MealPlanner;
-    saturday: MealPlanner;
-    sunday: MealPlanner;
-  };
+
+export interface WeekMealPlan {
+  week: Record<string, DayMealPlan>;
 }
+

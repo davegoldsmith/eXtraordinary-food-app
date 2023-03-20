@@ -1,130 +1,56 @@
-import {
-  Box,
-  getFormControlLabelUtilityClasses,
-  Grid,
-  Typography,
-} from "@mui/material";
-import Paper from "@mui/material/Paper";
+import { Box, Grid, Typography, Paper } from "@mui/material";
 import { AccessTime } from "@mui/icons-material";
-import { useContext, useState } from "react";
-import { DyMealPlanner, WeeklyMealPlanner } from "../../types/meal_planner";
+import { DayMealPlan,WeekMealPlan } from "../../types/meal_planner_types";
 
 
-export interface GenerateMealPlannerProps {
-  timeFrame: string;
-  mealData: DyMealPlanner | WeeklyMealPlanner;
+interface MealPlanProps {
+  mealData: DayMealPlan | WeekMealPlan;
+  timeFrame: "day" | "week";
 }
-export const GenerateMealPlanner: React.FC<GenerateMealPlannerProps> = (
-  inputProps
-) => {
-  function isWeek(
-    inputMealPlan: DyMealPlanner | WeeklyMealPlanner
-  ): inputMealPlan is WeeklyMealPlanner {
-    return (inputMealPlan as WeeklyMealPlanner) !== undefined;
-  }
-  const [dayMeals, setdayMeals] = useState<DyMealPlanner>(SAMPLEDATA);
-  const [weeklyMeals, setWeeklyMeals] =
-    useState<WeeklyMealPlanner>(SAMPLEWEEKDATA);
-  console.log(inputProps.timeFrame);
+
+const MealPlan: React.FC<MealPlanProps> = ({ mealData, timeFrame }) => {
+  const isWeek = (inputMealPlan: DayMealPlan | WeekMealPlan): inputMealPlan is WeekMealPlan => {
+    return (inputMealPlan as WeekMealPlan).week !== undefined;
+  };
+
+  const meals = isWeek(mealData) ? mealData.week : { monday: mealData };
+
   return (
     <>
-      {inputProps.timeFrame === "day"
-        ? !isWeek(inputProps.mealData) &&
-          dayMeals.meals.map((meal) => {
-            return (
-              <>
-                <Grid item xs={4}>
-                  <Grid container>
-                    <>
-                      <Grid item>
-                        <Paper elevation={10}>
-                          <Box
-                            sx={{
-                              height: 85,
-                            }}
-                          >
-                            <Typography
-                              variant="subtitle1"
-                              component={"h6"}
-                              padding="2"
-                            >
-                              {meal.title}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="subtitle2">
-                              No of Servings: {meal.servings}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="subtitle2">
-                              Ready In Minutes: {meal.readyInMinutes}
-                              <AccessTime sx={{ width: 20.0, height: 12.5 }} />
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <img
-                              src={`https://spoonacular.com/recipeImages/${meal.id}-90x90.${meal.imageType}`}
-                              alt={meal.title}
-                            />
-                          </Box>
-                        </Paper>
-                      </Grid>
-                    </>
-                  </Grid>
-                </Grid>
-              </>
-            );
-          })
-        : weeklyMeals &&
-          weeklyMeals.week &&
-          weeklyMeals.week.monday.meals &&
-          weeklyMeals.week.monday.meals.map((meal, index) => {
-            return (
-              <>
-                <Grid item xs={4}>
-                  <Grid container>
-                    <>
-                      <Grid item>
-                        <Paper elevation={10}>
-                          <Box
-                            sx={{
-                              height: 85,
-                            }}
-                          >
-                            <Typography
-                              variant="subtitle1"
-                              component={"h6"}
-                              padding="2"
-                            >
-                              {meal.title}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="subtitle2">
-                              No of Servings: {meal.servings}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="subtitle2">
-                              Ready In Minutes: {meal.readyInMinutes}
-                              <AccessTime sx={{ width: 20.0, height: 12.5 }} />
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <img
-                              src={`https://spoonacular.com/recipeImages/${meal.id}-90x90.${meal.imageType}`}
-                              alt={meal.title}
-                            />
-                          </Box>
-                        </Paper>
-                      </Grid>
-                    </>
-                  </Grid>
-                </Grid>
-              </>
-            );
-          })}
+      {Object.keys(meals).map((day, index) => (
+        <Grid key={day} item xs={4}>
+          <Grid container>
+            {meals[day].meals.map((meal) => (
+              <Grid key={meal.id} item>
+                <Paper elevation={10}>
+                  <Box sx={{ height: 85 }}>
+                    <Typography variant="subtitle1" component="h6" padding="2">
+                      {meal.title}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2">No of Servings: {meal.servings}</Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2">
+                      Ready In Minutes: {meal.readyInMinutes}
+                      <AccessTime sx={{ width: 20.0, height: 12.5 }} />
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <img
+                      src={`https://spoonacular.com/recipeImages/${meal.id}-90x90.${meal.imageType}`}
+                      alt={meal.title}
+                    />
+                  </Box>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      ))}
     </>
   );
 };
+
+export default MealPlan;
