@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { FormControl, createTheme, ThemeProvider, List, ListItem, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import { SearchResult, RecipeSearchResults, RecipeSearchParams } from '../../types/search_types';
 import { useNavigate } from "react-router-dom"
-import { SelectInput } from './Select';
+import { SelectInput } from './select';
+import {SearchResultGrid} from'./searc-result-grid'
 
 const BASE_URL = "http://localhost:3000/api/v1/search";
 
@@ -86,50 +87,7 @@ const Recipes: React.FC = () => {
         )
     };
 
-    function SearchResultGrid() {
-
-        const navigate = useNavigate();
-        function handleCardClick(recipe: SearchResult) {
-
-            navigate(`/recipe/${recipe.id}`)
-
-        }
-
-        return (
-            <>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <button onClick={() => setSidePanelOpen(true)}>Search Filter</button>
-                    <Typography variant="h1" align="center" sx={{ mb: 1 }}>
-                    </Typography>
-                    <Grid container spacing={2} >
-                        {searchResult.map((recipe) => (
-                            <Grid item xs={12} sm={6} md={4} key={recipe.id}>
-                                <Card sx={{ maxWidth: 345, height: "100%", mt: 4 }} onClick={() => handleCardClick(recipe)}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            height="250"
-                                            image={recipe.image}
-                                            alt="Food"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h6" component="div">
-                                                {recipe.title}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-
-                </ThemeProvider>
-            </>
-        )
-    };
-
-    const theme = createTheme();
+    
 
     const searchParameters = (): string => {
         const searchParams = new URLSearchParams();
@@ -164,9 +122,6 @@ const Recipes: React.FC = () => {
 
     const fetchRecipe = async () => {
 
-
-        //const response = await fetch(`http://localhost:3000/api/v1/search?`);
-
         const response = await fetch(`${BASE_URL}?${searchParameters()}`);
         const data = await response.json();
         console.log("****** client serach result =>", data.results);
@@ -178,22 +133,23 @@ const Recipes: React.FC = () => {
         console.log(" fetch recipe")
     }, [sidePanelOpen]);
 
-    const handleCuisineChange = (event) => {
-        setCuisine(event.target.value);
-    };
+    // const handleCuisineChange = (event) => {
+    //     setCuisine(event.target.value);
+    // };
 
-    const handleVegetarianOnlyChange = (event) => {
-        setVegetarianOnly(event.target.checked);
-    };
+    // const handleVegetarianOnlyChange = (event) => {
+    //     setVegetarianOnly(event.target.checked);
+    // };
 
-    const handleSearchTextChange = (event) => {
-        setSearchText(event.target.value);
-    };
+    // const handleSearchTextChange = (event) => {
+    //     setSearchText(event.target.value);
+    // };
 
     return (
-        <>
+        <>  
+        <button onClick={() => setSidePanelOpen(true)}>Search Filter</button>
             <FilterPanel />
-            <SearchResultGrid />
+            <SearchResultGrid recipeList = {searchResult} />
         </>
     )
 };
