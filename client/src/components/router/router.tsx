@@ -5,6 +5,7 @@ import MainLayout from "../layouts/main_layout";
 import MealPlanner from "../meal_planner/meal_planner";
 import NotFound from "../not_found/not_found";
 import RecipePage from "../recipes/recipe-page";
+import AddRecipePage from "../recipes/add-recipe-page";
 
 const Router: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Router: React.FC = () => {
         <Route path="recipes" element={<Recipes/>} /> 
         <Route path="mealPlanner" element={<MealPlanner/>} /> 
         <Route path="recipe/:recipeId" element={<RecipePage/>} />
+        <Route path="recipe/add" element={<AddRecipePage/>} />
         <Route path="*" element={<NotFound/>} /> 
       </Route>
     </Routes>
