@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FormControl, InputLabel, createTheme, ThemeProvider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Drawer, Box, CssBaseline, Select, TextField, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Checkbox, FormControlLabel, Grid, Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import { SearchResult, RecipeSearchResults, RecipeSearchParams } from '../../types/search_types';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from "react-router-dom"
+import { SelectCuisine } from './select-cuisine';
+import { SelectInput } from './select';
 
 const BASE_URL = "http://localhost:3000/api/v1/search";
 
@@ -12,54 +12,49 @@ const Recipes: React.FC = () => {
 
     const [searchResult, setSearchResult] = useState<Array<SearchResult>>([]);
     const [sidePanelOpen, setSidePanelOpen] = useState(false);
-    const [cuisine, setCuisine] = useState("");
+    const [cuisine, setCuisine] = useState("All");
+    const [diet, setDiet] = useState("All");
+    const [intolerances, setIntolerances] = useState("None");
     const [vegetarianOnly, setVegetarianOnly] = useState(false);
     const [searchText, setSearchText] = useState("");
 
     const cuisineList: string[] = ['All', 'African', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese',
         'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian',
         'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern',
-        'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese']
+        'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'];
+
+    const intolerancesList: string[] = ['None','Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame',
+        'Shellfish', 'Soy', 'Sulfite', 'Tree Nut', 'Wheat'];
 
     function FilterPanel() {
 
         return (
             <>
                 <Drawer anchor="right" open={sidePanelOpen} onClose={() => setSidePanelOpen(false)}>
-                    <FormControl variant='outlined' style={{ width: '100%' }}>
+                    <FormControl variant='outlined' size="small" style={{ width: '100%' }}>
                         <List sx={{ width: 250, mt: 2, mb: 2 }}>
                             <ListItem>
                                 <ListItemText primary="Search Filters" />
                             </ListItem>
-                            <ListItem style={{ margin: 0 }}>
-                                <InputLabel id="Cusisine-select-label">Cuisine</InputLabel>
-                                <Select
-                                    //multiple
-                                    value={cuisine}
-                                    onChange={handleCuisineChange}
-                                    labelId="Cusisine-select-label"
-                                    label={"Cuisine"}
-                                    //size='medium'
-                                    fullWidth
-                                >
-                                    {cuisineList.map((value, key) => {
-                                        return (
+                            {/* <SelectCuisine cuisine={cuisine} onChange={(newValue) => setCuisine(newValue)} /> */}
+                            <SelectInput
+                                id='cuisine'
+                                name='cuisine'
+                                value={cuisine}
+                                label='Cuisine'
+                                onChangeHandler={(newValue) => setCuisine(newValue)}
+                                options={cuisineList}
+                            />
+                            <SelectInput
+                                id='intolerances'
+                                name='intolerances'
+                                value={intolerances}
+                                label='Intolerances'
+                                onChangeHandler={(newValue) => setDiet(newValue)}
+                                options={intolerancesList}
+                            />
+                            {/* <SearchText searchText={searchText} onChange={(newValue) => setSearchText(newValue)} /> */}
 
-                                            <MenuItem key={key} value={value}>
-                                                {value}
-                                            </MenuItem>
-                                        )
-                                    })}
-                                </Select>
-                            </ListItem>
-                            <ListItem>
-                                <TextField
-                                    label="Search Text"
-                                    value={searchText}
-                                    onChange={handleSearchTextChange}
-                                    fullWidth
-                                />
-                            </ListItem>
                             <ListItem>
                                 <FormControlLabel
                                     control={
@@ -130,14 +125,14 @@ const Recipes: React.FC = () => {
         //console.log("******* params", params)
 
         console.log("**8cuisine**", cuisine)
-        if (cuisine !== null) searchParams.set('cuisine', cuisine);
+        if (cuisine !== "All") searchParams.set('cuisine', cuisine);
         //   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
         //   if (params.diet !== undefined) searchParams.set('diet', params.diet);
         //   if (params.intolerances !== undefined) searchParams.set('intolerances', params.intolerances);
         //   if (params.includeIngredients !== undefined) searchParams.set('includeIngredients', params.includeIngredients);
         //   if (params.excludeIngredients !== undefined) searchParams.set('excludeIngredients', params.excludeIngredients);
         //   if (params.type !== undefined) searchParams.set('type', params.type);
-        //   if (params.titleMatch !== undefined) searchParams.set('titleMatch', params.titleMatch);
+        if (searchText !== "") searchParams.set('titleMatch', searchText);
         //   if (params.maxReadyTime !== undefined) searchParams.set('maxReadyTime', params.maxReadyTime.toString());
         //   if (params.sort !== undefined) searchParams.set('sort', params.sort);
         //   if (params.sortDirection !== undefined) searchParams.set('sortDirection', params.sortDirection);
@@ -171,16 +166,10 @@ const Recipes: React.FC = () => {
     useEffect(() => {
         fetchRecipe();
         console.log(" fetch recipe")
-    }, [cuisine]);
+    }, [sidePanelOpen]);
 
     const handleCuisineChange = (event) => {
-        if (event.target.value !== "All") {
-            setCuisine(event.target.value);
-        }
-        else {
-            setCuisine('');
-        }
-        console.log("****  handleCuisineChange =>", event.target.value)
+        setCuisine(event.target.value);
     };
 
     const handleVegetarianOnlyChange = (event) => {
