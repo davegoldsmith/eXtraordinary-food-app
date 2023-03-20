@@ -61,7 +61,7 @@ const AddRecipePage: React.FC = () => {
             {error}
           </Typography>
         )}
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="outlined" color="primary" type="submit">
           Add
         </Button>
         {isLoading && <CircularProgress sx={{ ml: 2 }} />}
