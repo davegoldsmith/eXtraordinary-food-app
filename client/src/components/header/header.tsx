@@ -21,7 +21,7 @@ import {
 import { useContext } from "react";
 import { User } from "../../types/user_types";
 import { emptyUser, getUserInitials } from "../../helper/user_helper";
-import { deepOrange } from "@mui/material/colors";
+import { red } from "@mui/material/colors";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import UserPreferences from "../user_preferences/user_preferences";
 import SideDrawer from "../general/side_drawer";
@@ -224,7 +224,7 @@ function Header() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar sx={{ bgcolor: deepOrange[500] }}>
+                  <Avatar sx={{ bgcolor: red[500] }}>
                     {getUserInitials(user).length > 0 ? (
                       getUserInitials(user)
                     ) : (

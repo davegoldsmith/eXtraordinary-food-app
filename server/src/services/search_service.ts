@@ -1,6 +1,6 @@
 import { SearchResult } from "../types/search_types";
 import  {RecipeSearchParams} from '../types/search_types'
-import fetch from "node-fetch";
+
 const BASE_URL = "https://api.spoonacular.com/recipes/complexSearch";
 const DEFAULT_SEARCH_NUMBER = 200;
 

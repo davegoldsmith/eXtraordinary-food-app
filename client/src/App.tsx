@@ -3,12 +3,12 @@ import Router from "./components/router/router";
 import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import UserProvider from "./components/context/user_context_provider";
-import LoginForm from "./components/login/login_form";
-import "./styles.css";
-import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
+import { createTheme, GlobalStyles, ThemeProvider, useMediaQuery } from "@mui/material";
+import { teal } from "@mui/material/colors";
+import red from "@mui/material/colors/red";
+import { body1, header5, header6 } from "./styles/styles";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -17,7 +17,10 @@ function App() {
       createTheme({
         palette: {
           mode: prefersDarkMode ? "dark" : "light",
+          primary: teal,
+          secondary: red,
         },
+        
       }),
 
     [prefersDarkMode]
@@ -25,6 +28,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles styles={{ h5: header5, h6: header6, body1: body1 }} />
       <UserProvider>
         <BrowserRouter>
           <Router />
