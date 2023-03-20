@@ -1,18 +1,14 @@
 import * as React from "react";
 import { Box, Drawer } from "@mui/material";
-import LoginTabs from "./login_register_tabs";
 
-interface LoginDrawerProps {
+interface SideDrawerProps {
+  toggleDrawer: (isOpen: boolean) => void;
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  children?: React.ReactNode;
 }
 
-const LoginDrawer: React.FC<LoginDrawerProps> = ({ isOpen, setIsOpen }) => {
+const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, toggleDrawer, children }) => {
   const anchor = "right";
-
-  const toggleDrawer = (open: boolean) => {
-    setIsOpen(open);
-  };
 
   return (
       <React.Fragment>
@@ -22,11 +18,11 @@ const LoginDrawer: React.FC<LoginDrawerProps> = ({ isOpen, setIsOpen }) => {
           onClose={(e) => toggleDrawer(false)}
         >
           <Box sx={{ width: 375 }} role="presentation">
-            <LoginTabs toggleDrawer={toggleDrawer} />
+            {children}
           </Box>
         </Drawer>
       </React.Fragment>
   );
 };
 
-export default LoginDrawer;
+export default SideDrawer;
