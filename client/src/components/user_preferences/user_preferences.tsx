@@ -91,8 +91,8 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
 
   return (
     <Dialog open={isOpen}>
-      <DialogTitle>
-        <Typography variant="h6">
+      <DialogTitle sx={{backgroundColor:"#272727"}}>
+        <Typography variant="h6" >
           <BuildRoundedIcon /> User Preferences for : {user.first_name}{" "}
           {user.last_name}
         </Typography>
@@ -185,11 +185,11 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
           }
         />
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={() => handleClose(true)}>
+      <DialogActions sx={{backgroundColor:"#272727"}}>
+        <Button variant="contained" onClick={() => handleClose(true)}>
           Ignore Changes
         </Button>
-        <Button variant="outlined" onClick={() => handleClose(false)}>
+        <Button variant="contained" onClick={() => handleClose(false)}>
           Save Preferences
         </Button>
       </DialogActions>

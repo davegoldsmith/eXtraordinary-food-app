@@ -29,7 +29,7 @@ export const SearchResultGrid:React.FC<SelectProps> = ({recipeList}) => {
                                     alt="Food"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h6" component="div">
+                                    <Typography gutterBottom variant="h6" component="h6">
                                         {recipe.title}
                                     </Typography>
                                 </CardContent>
