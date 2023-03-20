@@ -14,9 +14,9 @@ const MealPlanPage: React.FC = () => {
   const [mealPlan, setMealPlan] = useState<DayMealPlan | WeekMealPlan>();
 
   const getMealPlan = async () => {
-    let url = 'http://localhost:3000/api/v1/DayMealPlan';
+    let url = 'http://localhost:3000/api/v1/DayMealPlanner';
     if (mealPlanType === "week") {
-      url = 'http://localhost:3000/api/v1/WeekMealPlan';
+      url = 'http://localhost:3000/api/v1/WeekMealPlanner';
     }
     const data = await fetch(url);
     const json = await data.json();
