@@ -15,8 +15,7 @@ const Router: React.FC = () => {
       <Route path="/" element={<MainLayout/>}>
         <Route index element={<Home/>} /> 
         <Route path="recipes" element={<Recipes/>} /> 
-        <Route path="mealPlanner" element={<MealPlanner/>} />
-        <Route path="mealplanpage" element={<MealPlanPage/>} /> 
+        <Route path="mealPlanner" element={<MealPlanPage/>} />
         <Route path="recipe/:recipeId" element={<RecipePage/>} />
         <Route path="recipe/add" element={<AddRecipePage/>} />
         <Route path="*" element={<NotFound/>} /> 
