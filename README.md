@@ -89,6 +89,9 @@ This runs server tests in watch mode.
 | UpdateUserPref  | PUT | http://localhost:3000/api/v1/userPrefs/{pref_name} | user_id | {"pref_value": 3008}  |
 | UpdateUserPrefs  | PUT | http://localhost:3000/api/v1/userPrefs |  user_id | [{"pref_id": 2, "pref_name": "calories", "pref_value": "2500", "user_id": 36 }, {"pref_name": "cuisines", "pref_value": "French, British", "user_id": 36}] |
 | CreatePref  | POST |  http://localhost:3000/api/v1/userPrefs | user_id | {"pref_name": "calories","pref_value": "1500", "user_id": 36} |
+| getRecipe | GET | http://localhost:3000/api/v1/recipe | recipeId |  |
+| getRecipeFromURL | GET | http://localhost:3000/api/v1/recipe/ext | url |  |
+| saveRecipeFromURL | POST | http://localhost:3000/api/v1/recipe/save | url |  |
 
 
 ## Authors
