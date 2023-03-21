@@ -92,7 +92,7 @@ This runs server tests in watch mode.
 | getRecipe | GET | http://localhost:3000/api/v1/recipe | recipeId |  |
 | getRecipeFromURL | GET | http://localhost:3000/api/v1/recipe/ext | url |  |
 | saveRecipeFromURL | POST | http://localhost:3000/api/v1/recipe/save | url |  |
-
+| complexSearch | GET | https://api.spoonacular.com/recipes/complexSearch | url |  |
 
 ## Authors
 
