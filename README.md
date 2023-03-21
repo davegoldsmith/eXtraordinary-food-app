@@ -39,7 +39,7 @@ There is a file called `create_mealapp_db.sql` in the `/server/src/scripts` dire
 In order to utilise your lovely new database you will need to provide an environment file called `.env.prod` in the server directory. It should look something like this:
 ```
 PORT=3000
-SPOONACULAR_API_KEY=149888bade0e4d0d9b8be8d5a29d8736
+SPOONACULAR_API_KEY=<api-key>
 DB_NAME=mealapp
 DB_USERNAME=mealappuser
 DB_PASSWORD=<password-you-used-to-create-user>
