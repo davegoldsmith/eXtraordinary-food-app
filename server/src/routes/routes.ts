@@ -17,7 +17,7 @@ router.get("/userPrefs/:pref_name", userPrefsController.getUserPreference);
 router.put("/userPrefs/:pref_name", userPrefsController.updateUserPreference);
 
 router.get("/recipe", recipeController.getRecipe);
-router.get("/recipe/ext", recipeController.getRecipeFromURL); //TODO is ext a good name?
+router.get("/recipe/ext", recipeController.getRecipeFromURL);
 router.post("/recipe/save", recipeController.saveRecipeFromURL);
 
 router.get("/DayMealPlanner", mealplanner_controller.getDayMealPlanner);

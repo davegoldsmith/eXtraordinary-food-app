@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { userInfo } from "os";
 import { UserPrefs } from "../models/user_prefs";
 import * as userPrefsService from "../services/user_prefs_service";
 
