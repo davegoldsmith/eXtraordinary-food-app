@@ -10,11 +10,9 @@ export const getUserPreferences = async (setUserPreference: (userPrefs: Array<Us
       },
       method: "GET",
     });
-    console.dir(response);
 
     if (response.ok) {
       const json = (await response.json()) as UserPreference[];
-      console.dir(json);
       setUserPreference(json);
     } 
 };

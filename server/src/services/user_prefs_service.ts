@@ -13,7 +13,6 @@ export const getAllUserPreferences = async (user_id: string) => {
 };
 
 export const getUserPreference = async (userPrefs: UserPrefs) => {
-  console.dir(userPrefs);
   return UserPrefs.findOne({
     where: {
       user_id: userPrefs.user_id,

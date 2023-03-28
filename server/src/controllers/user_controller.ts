@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {
   const userToBeCreated = req.body;
-  console.dir(userToBeCreated);
   try {
     const user = await userService.createUser(userToBeCreated);
     res.status(201).json(user);
@@ -17,15 +16,11 @@ export const createUser = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
   const password = req.query.password;
   const email = req.query.email;
-  console.log("params = " + email + ", " + password);
-  console.dir(req.query);
   try {
     const foundUser = await userService.getUser(email as string);
-    console.log ("foundUser.password = " + foundUser?.password);
     if (foundUser !== null) {
       bcrypt.compare(password as string, foundUser.password, (err, result) => {
         if (result === true) {
-          console.log("user ok");
           res.json(foundUser).status(200);
         } else {
           res.status(401).json({message: "Unauthorised user"});

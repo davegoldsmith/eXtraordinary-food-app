@@ -38,7 +38,6 @@ const AddRecipePage: React.FC = () => {
       setError(null);
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
       setError("An error occurred while fetching the recipe.");
       setIsLoading(false);
     }

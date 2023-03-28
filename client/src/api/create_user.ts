@@ -2,7 +2,6 @@ import { User } from "../types/user_types";
 
 export const createUser = async (user: User) => {
   const url = `http://localhost:3000/api/v1/user`;
-  console.log(user);
 
   try {
     const response = await fetch(url, {
@@ -12,7 +11,6 @@ export const createUser = async (user: User) => {
       method: "POST",
       body: JSON.stringify(user),
     });
-    console.dir(response);
 
     if (response.ok && response.status === 201) {
       return true;

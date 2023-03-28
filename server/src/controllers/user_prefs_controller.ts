@@ -27,8 +27,6 @@ export const getAllUserPreferences = async (req: Request<object, object, object,
 export const getUserPreference = async (req: Request<{pref_name: string}, object, object, {user_id:number|undefined}>, res: Response) => {
   const pref_name = req.params.pref_name;
   const { user_id } = req.query;
-  console.log("User Id = " + user_id);
-  console.log("pref_name = " + pref_name);
   if (user_id) {
       const userPref = await userPrefsService.getUserPreference({user_id, pref_name} as UserPrefs);
       res.json(userPref).status(200);
@@ -39,13 +37,11 @@ export const getUserPreference = async (req: Request<{pref_name: string}, object
 }
 
 export const updateUserPreferences = async  (req: Request<object, object, object, {user_id:number|undefined}>, res: Response) => {
-  console.log(req.body );
   const userPrefs = req.body as UserPrefs[];
   const { user_id } = req.query;
   try {
     userPrefs.forEach(async (userPref: UserPrefs) => {
       const foundPref = await userPrefsService.getUserPreference(userPref);
-      console.dir(foundPref);
       if (foundPref !== null) {
         await userPrefsService.updateUserPreference(userPref);       
       } else {
@@ -71,7 +67,6 @@ export const updateUserPreference = async (req: Request<{pref_name: string}, obj
   
   if (user_id) {
     const updatedUserPref = await userPrefsService.updateUserPreference(prefUpdateData);
-    console.dir(updatedUserPref);
     if (updatedUserPref[0] === 1) {
       res.status(204).json({message:`Preference '${pref_name}' for user_id '${user_id}' successfully updated`});
     } else {

@@ -66,21 +66,18 @@ User.init(
 );
 
 User.beforeCreate(async (user, options) => {
-	console.log("In beforeCreate");
   const exists = await User.findOne({
     where: {
       email: user.email
     },
   }); 
-	console.dir(exists);
-  if (exists !== null) {
 
+  if (exists !== null) {
     throw new Error("User with the given email already exists.");
   } else {
     try {
       const response = await connectUser(user);
       const connUser = await response.json() as ApiUser;
-      console.log(JSON.stringify(connUser));
       user.api_hash = connUser.hash;
 			user.user_name = connUser.username;
     } catch (e) {

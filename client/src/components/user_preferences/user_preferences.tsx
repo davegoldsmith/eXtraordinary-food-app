@@ -54,7 +54,6 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
     pref_name: string,
     prefValues: Array<string>
   ) => {
-    console.log(prefValues);
     const pref_value = prefValues.reduce(
       (prev, curr) => (prev ? (prev += "," + curr) : curr),
       ""
@@ -64,7 +63,6 @@ const UserPreferences: React.FC<UserPreferenceProps> = ({
   };
 
   const updateUserPrefString = (pref_name: string, pref_value: string) => {
-    console.log(pref_value);
     const userPref = { pref_name, pref_value, user_id: user.user_id };
     updateUserPreference(userPref);
   };

@@ -8,7 +8,6 @@ export const getRecipeList = async (req: Request, res: Response) => {
   try {
     const searchPara : RecipeSearchParams = req.query as RecipeSearchParams
     const recipelist = await searchService.getSearch(searchPara);
-    //console.log("****** recipe list=>",recipelist );
     res.status(200).json(recipelist);
   } catch (error) {
     let message = (error as Error).message;
