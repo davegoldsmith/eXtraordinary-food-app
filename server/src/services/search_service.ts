@@ -7,8 +7,6 @@ const DEFAULT_SEARCH_NUMBER = 200;
 const searchParameters = (params : RecipeSearchParams):string  =>
 {
   const searchParams = new URLSearchParams();
-  //console.log("******* params", params)
-
   if (params.cuisine !== undefined) searchParams.set('cuisine', params.cuisine);
   if (params.excludeCuisine !== undefined) searchParams.set('excludeCuisine', params.excludeCuisine);
   if (params.diet !== undefined) searchParams.set('diet', params.diet);

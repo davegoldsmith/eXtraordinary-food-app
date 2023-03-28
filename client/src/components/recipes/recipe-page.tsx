@@ -11,7 +11,6 @@ const RecipePage: React.FC = () => {
 
 
   useEffect(() => {
-    console.log(recipeId)
     const fetchRecipe = async () => {
       const response = await fetch(`http://localhost:3000/api/v1/recipe?recipeId=${recipeId}`);
       const data = await response.json() as Recipe;

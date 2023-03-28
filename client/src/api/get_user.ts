@@ -11,7 +11,6 @@ export const getUser = async (email: string, password: string) => {
       },
       method: "GET",
     });
-    console.dir(response);
 
     if (response.ok) {
       return (await response.json()) as User;

@@ -163,7 +163,6 @@ const Recipes: React.FC = () => {
 
   useEffect(() => {
     fetchRecipe();
-    console.log(" fetch recipe");
   }, [sidePanelOpen]);
 
   return (

@@ -8,7 +8,6 @@ import {
 import { sequelize } from "../database/database";
 import bcrypt from "bcrypt";
 import { ApiUser } from "../types/user_types";
-import { UserPrefs } from "./user_prefs";
 
 export class User extends Model<
 	InferAttributes<User>,
@@ -66,28 +65,19 @@ User.init(
 	}
 );
 
-// User.hasMany(UserPrefs, {
-//   foreignKey: "user_id"
-// });
-
-// UserPrefs.belongsTo(User);
-
 User.beforeCreate(async (user, options) => {
-	console.log("In beforeCreate");
   const exists = await User.findOne({
     where: {
       email: user.email
     },
   }); 
-	console.dir(exists);
-  if (exists !== null) {
 
+  if (exists !== null) {
     throw new Error("User with the given email already exists.");
   } else {
     try {
       const response = await connectUser(user);
       const connUser = await response.json() as ApiUser;
-      console.log(JSON.stringify(connUser));
       user.api_hash = connUser.hash;
 			user.user_name = connUser.username;
     } catch (e) {

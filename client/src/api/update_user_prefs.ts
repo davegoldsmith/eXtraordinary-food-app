@@ -14,7 +14,6 @@ export const updateUserPreferences = async (
     method: "PUT",
     body: JSON.stringify(userPrefs),
   });
-  console.dir(response);
 
   if (response.ok) {
     return true;
